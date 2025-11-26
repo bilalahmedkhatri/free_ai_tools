@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateWithReplicate } from '@/app/lib/replicateService';
 
-// POST /api/voiceover/free_tool - Generate voiceover
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { text, voice_id, speed = 1, pitch = 1, volume = 0.8, tone = 'neutral' } = body;
     
-    // Validation helper
     const validate = (condition: boolean, message: string, status = 400) => {
       if (condition) {
         throw { message, status };
@@ -19,14 +18,47 @@ export async function POST(request: NextRequest) {
     validate(pitch < 0 || pitch > 2, 'Pitch must be between 0 and 2');
     validate(volume < 0 || volume > 1, 'Volume must be between 0 and 1');
 
-    // Call external API
+    const useReplicate = process.env.USE_REPLICATE === 'true';
+
+    if (useReplicate) {
+      console.log('=== Using Replicate Kokoro-82M ===');
+      console.log('Voice:', voice_id);
+      console.log('Text length:', text.length);
+      console.log('Parameters: speed=' + speed + ', pitch=' + pitch + ', volume=' + volume);
+      
+      if (pitch !== 1 || volume !== 0.8) {
+        console.warn('⚠️  Kokoro-82M only supports speed parameter. Pitch and volume will be ignored.');
+      }
+      
+      const result = await generateWithReplicate({
+        text,
+        voice: voice_id,
+        speed, // Only speed is supported by Kokoro-82M
+        pitch, // Ignored by model
+        volume, // Ignored by model
+      });
+
+      const id = generateId();
+      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+      return NextResponse.json({
+        id,
+        audio_url: result.audioUrl,
+        voice_name: voice_id,
+        duration_seconds: 0,
+        file_size: result.audioBuffer.byteLength,
+        expires_at: expiresAt,
+        remaining_uses: 999,
+        reset_at: null,
+      });
+    }
+
     const apiUrl = process.env.VOICEOVER_API_URL || 'http://localhost:8000';
     const endpoint = `${apiUrl}/api/voiceover/free_tool`;
     
-    console.log('=== API Request ===');
+    console.log('=== Using Custom API ===');
     console.log('Endpoint:', endpoint);
     console.log('Body:', JSON.stringify({ text, voice_id, speed, pitch, volume, tone }, null, 2));
-    console.log('==================');
     
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -70,7 +102,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper function to generate unique ID
-function generateUniqueId(): string {
+function generateId(): string {
   return `vo_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }

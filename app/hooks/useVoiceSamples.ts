@@ -11,7 +11,8 @@ export function useVoiceSamples() {
       setLoading(true);
       setError(null);
       
-      // Add timeout to prevent blocking - increased to 10s
+      console.log('[useVoiceSamples] Fetching voices...');
+      
       const timeoutPromise = new Promise<never>((_, reject) => 
         setTimeout(() => reject(new Error('Request timeout')), 10000)
       );
@@ -21,12 +22,14 @@ export function useVoiceSamples() {
         timeoutPromise
       ]);
       
+      console.log('[useVoiceSamples] Received voices:', samples.length);
+      console.log('[useVoiceSamples] First voice:', samples[0]);
+      
       setVoices(samples);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load voices';
       setError(errorMessage);
-      console.error('Error loading voice samples:', err);
-      // Set empty array on error so the page still works
+      console.error('[useVoiceSamples] Error loading voice samples:', err);
       setVoices([]);
     } finally {
       setLoading(false);

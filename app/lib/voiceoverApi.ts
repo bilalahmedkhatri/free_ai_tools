@@ -1,4 +1,3 @@
-// API client for voiceover generation
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export interface VoiceoverRequest {
@@ -29,9 +28,6 @@ export interface VoiceSample {
   language: string;
   description: string;
   sample_url: string;
-  // provider: string;
-  // model_name: string;
-  // is_active: boolean;
 }
 
 export interface VoiceSamplesResponse {
@@ -92,8 +88,15 @@ export async function getVoiceSamples(): Promise<VoiceSample[]> {
     throw new Error(error.error || 'Failed to fetch voice samples');
   }
 
-  const data: VoiceSamplesResponse = await response.json();
-  return data.voices;
+  const data = await response.json();
+  
+  // API returns array directly, not wrapped in { voices: [] }
+  if (Array.isArray(data)) {
+    return data;
+  }
+  
+  // Fallback for old API format
+  return data.voices || [];
 }
 
 /**

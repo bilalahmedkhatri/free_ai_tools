@@ -1,15 +1,6 @@
-/**
- * LocalStorage utility for managing saved voiceover prompts
- * Provides type-safe localStorage operations with error handling
- */
-
 const STORAGE_KEY = 'voiceover-saved-prompts';
 
 export const promptStorage = {
-  /**
-   * Load saved prompts from localStorage
-   * @returns Array of saved prompt strings
-   */
   load: (): string[] => {
     try {
       if (typeof window === 'undefined') return [];
@@ -25,11 +16,6 @@ export const promptStorage = {
     }
   },
 
-  /**
-   * Save prompts to localStorage
-   * @param prompts - Array of prompt strings to save
-   * @returns boolean indicating success
-   */
   save: (prompts: string[]): boolean => {
     try {
       if (typeof window === 'undefined') return false;
@@ -42,16 +28,10 @@ export const promptStorage = {
     }
   },
 
-  /**
-   * Add a new prompt to saved prompts
-   * @param prompt - The prompt text to add
-   * @returns boolean indicating success
-   */
   add: (prompt: string): boolean => {
     try {
       const prompts = promptStorage.load();
       
-      // Don't add if empty or already exists
       if (!prompt.trim() || prompts.includes(prompt)) {
         return false;
       }
@@ -64,11 +44,6 @@ export const promptStorage = {
     }
   },
 
-  /**
-   * Remove a prompt by index
-   * @param index - The index of the prompt to remove
-   * @returns boolean indicating success
-   */
   remove: (index: number): boolean => {
     try {
       const prompts = promptStorage.load();
@@ -85,10 +60,6 @@ export const promptStorage = {
     }
   },
 
-  /**
-   * Clear all saved prompts
-   * @returns boolean indicating success
-   */
   clear: (): boolean => {
     try {
       if (typeof window === 'undefined') return false;
@@ -101,20 +72,11 @@ export const promptStorage = {
     }
   },
 
-  /**
-   * Check if a prompt already exists
-   * @param prompt - The prompt text to check
-   * @returns boolean indicating if prompt exists
-   */
   exists: (prompt: string): boolean => {
     const prompts = promptStorage.load();
     return prompts.includes(prompt);
   },
 
-  /**
-   * Get the total number of saved prompts
-   * @returns number of saved prompts
-   */
   count: (): number => {
     const prompts = promptStorage.load();
     return prompts.length;

@@ -1,0 +1,479 @@
+{
+  "americanEnglish": [
+    {
+      "voice_id": "af_alloy",
+      "voice_name": "Alloy",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_aoede",
+      "voice_name": "Aoede",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_bella",
+      "voice_name": "Bella",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "A",
+      "training": "HH hours",
+      "featured": true,
+      "description": "High quality American female voice"
+    },
+    {
+      "voice_id": "af_jessica",
+      "voice_name": "Jessica",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_kore",
+      "voice_name": "Kore",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_nicole",
+      "voice_name": "Nicole",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "HH hours",
+      "featured": true,
+      "description": "Professional American female voice"
+    },
+    {
+      "voice_id": "af_nova",
+      "voice_name": "Nova",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_river",
+      "voice_name": "River",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American female voice"
+    },
+    {
+      "voice_id": "af_sarah",
+      "voice_name": "Sarah",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "Warm American female voice"
+    },
+    {
+      "voice_id": "af_sky",
+      "voice_name": "Sky",
+      "gender": "Female",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "M minutes",
+      "description": "Bright American female voice"
+    },
+    {
+      "voice_id": "am_adam",
+      "voice_name": "Adam",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "D",
+      "training": "H hours",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_echo",
+      "voice_name": "Echo",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_eric",
+      "voice_name": "Eric",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_fenrir",
+      "voice_name": "Fenrir",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_liam",
+      "voice_name": "Liam",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_michael",
+      "voice_name": "Michael",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "Deep American male voice"
+    },
+    {
+      "voice_id": "am_onyx",
+      "voice_name": "Onyx",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "American male voice"
+    },
+    {
+      "voice_id": "am_puck",
+      "voice_name": "Puck",
+      "gender": "Male",
+      "accent": "American",
+      "language": "en-US",
+      "quality": "B",
+      "training": "H hours",
+      "description": "American male voice"
+    }
+  ],
+  "britishEnglish": [
+    {
+      "voice_id": "bf_alice",
+      "voice_name": "Alice",
+      "gender": "Female",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "British female voice"
+    },
+    {
+      "voice_id": "bf_emma",
+      "voice_name": "Emma",
+      "gender": "Female",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "B",
+      "training": "HH hours",
+      "featured": true,
+      "description": "Elegant British female voice"
+    },
+    {
+      "voice_id": "bf_isabella",
+      "voice_name": "Isabella",
+      "gender": "Female",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Refined British female voice"
+    },
+    {
+      "voice_id": "bf_lily",
+      "voice_name": "Lily",
+      "gender": "Female",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "British female voice"
+    },
+    {
+      "voice_id": "bm_daniel",
+      "voice_name": "Daniel",
+      "gender": "Male",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "British male voice"
+    },
+    {
+      "voice_id": "bm_fable",
+      "voice_name": "Fable",
+      "gender": "Male",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "British male voice"
+    },
+    {
+      "voice_id": "bm_george",
+      "voice_name": "George",
+      "gender": "Male",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Distinguished British male voice"
+    },
+    {
+      "voice_id": "bm_lewis",
+      "voice_name": "Lewis",
+      "gender": "Male",
+      "accent": "British",
+      "language": "en-GB",
+      "quality": "C",
+      "training": "H hours",
+      "description": "Clear British male voice"
+    }
+  ],
+  "french": [
+    {
+      "voice_id": "ff_siwis",
+      "voice_name": "Siwis",
+      "gender": "Female",
+      "accent": "French",
+      "language": "fr-FR",
+      "quality": "B",
+      "training": "<11 hours",
+      "description": "French female voice"
+    }
+  ],
+  "hindi": [
+    {
+      "voice_id": "hf_alpha",
+      "voice_name": "Alpha",
+      "gender": "Female",
+      "accent": "Hindi",
+      "language": "hi",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Hindi female voice"
+    },
+    {
+      "voice_id": "hf_beta",
+      "voice_name": "Beta",
+      "gender": "Female",
+      "accent": "Hindi",
+      "language": "hi",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Hindi female voice"
+    },
+    {
+      "voice_id": "hm_omega",
+      "voice_name": "Omega",
+      "gender": "Male",
+      "accent": "Hindi",
+      "language": "hi",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Hindi male voice"
+    },
+    {
+      "voice_id": "hm_psi",
+      "voice_name": "Psi",
+      "gender": "Male",
+      "accent": "Hindi",
+      "language": "hi",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Hindi male voice"
+    }
+  ],
+  "italian": [
+    {
+      "voice_id": "if_sara",
+      "voice_name": "Sara",
+      "gender": "Female",
+      "accent": "Italian",
+      "language": "it",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Italian female voice"
+    },
+    {
+      "voice_id": "im_nicola",
+      "voice_name": "Nicola",
+      "gender": "Male",
+      "accent": "Italian",
+      "language": "it",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Italian male voice"
+    }
+  ],
+  "japanese": [
+    {
+      "voice_id": "jf_alpha",
+      "voice_name": "Alpha",
+      "gender": "Female",
+      "accent": "Japanese",
+      "language": "ja",
+      "quality": "B",
+      "training": "H hours",
+      "description": "Japanese female voice"
+    },
+    {
+      "voice_id": "jf_gongitsune",
+      "voice_name": "Gongitsune",
+      "gender": "Female",
+      "accent": "Japanese",
+      "language": "ja",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Japanese female voice"
+    },
+    {
+      "voice_id": "jf_nezumi",
+      "voice_name": "Nezumi",
+      "gender": "Female",
+      "accent": "Japanese",
+      "language": "ja",
+      "quality": "B",
+      "training": "M minutes",
+      "description": "Japanese female voice"
+    },
+    {
+      "voice_id": "jf_tebukuro",
+      "voice_name": "Tebukuro",
+      "gender": "Female",
+      "accent": "Japanese",
+      "language": "ja",
+      "quality": "B",
+      "training": "MM minutes",
+      "description": "Japanese female voice"
+    },
+    {
+      "voice_id": "jm_kumo",
+      "voice_name": "Kumo",
+      "gender": "Male",
+      "accent": "Japanese",
+      "language": "ja",
+      "quality": "B",
+      "training": "M minutes",
+      "description": "Japanese male voice"
+    }
+  ],
+  "mandarinChinese": [
+    {
+      "voice_id": "zf_xiaobei",
+      "voice_name": "Xiaobei",
+      "gender": "Female",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese female voice"
+    },
+    {
+      "voice_id": "zf_xiaoni",
+      "voice_name": "Xiaoni",
+      "gender": "Female",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese female voice"
+    },
+    {
+      "voice_id": "zf_xiaoxiao",
+      "voice_name": "Xiaoxiao",
+      "gender": "Female",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese female voice"
+    },
+    {
+      "voice_id": "zf_xiaoyi",
+      "voice_name": "Xiaoyi",
+      "gender": "Female",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese female voice"
+    },
+    {
+      "voice_id": "zm_yunjian",
+      "voice_name": "Yunjian",
+      "gender": "Male",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese male voice"
+    },
+    {
+      "voice_id": "zm_yunxi",
+      "voice_name": "Yunxi",
+      "gender": "Male",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese male voice"
+    },
+    {
+      "voice_id": "zm_yunxia",
+      "voice_name": "Yunxia",
+      "gender": "Male",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese male voice"
+    },
+    {
+      "voice_id": "zm_yunyang",
+      "voice_name": "Yunyang",
+      "gender": "Male",
+      "accent": "Mandarin",
+      "language": "zh-CN",
+      "quality": "C",
+      "training": "MM minutes",
+      "description": "Mandarin Chinese male voice"
+    }
+  ]
+}

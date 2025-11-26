@@ -28,13 +28,11 @@ export default function VoiceDropdown({
     e.stopPropagation();
     if (!selectedVoiceData?.sample_url) return;
 
-    // Stop current audio if playing
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
 
-    // Create and play new audio
     const audio = new Audio(selectedVoiceData.sample_url);
     audioRef.current = audio;
     setIsPlaying(true);

@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Fetch the audio file from the backend
     const response = await fetch(audioUrl);
 
     if (!response.ok) {

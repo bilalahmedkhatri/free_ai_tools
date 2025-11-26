@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { FaVolumeUp, FaMusic, FaSlidersH } from 'react-icons/fa';
 import { SiSpeedtest } from "react-icons/si";
 import { VoiceParams } from '../types';
@@ -9,7 +9,6 @@ import { VoiceSample } from '../lib/voiceoverApi';
 interface VoiceControlsProps {
   params: VoiceParams;
   onParamsChange: (params: VoiceParams) => void;
-  // API voices props
   apiVoices?: VoiceSample[];
   apiVoicesLoading?: boolean;
   apiVoicesError?: string | null;
@@ -26,6 +25,21 @@ const VoiceControls = memo(function VoiceControls({
   onApiVoiceChange,
   selectedApiVoice = '',
 }: VoiceControlsProps) {
+  const [useReplicate, setUseReplicate] = useState(false);
+  const [configLoaded, setConfigLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/voiceover/config')
+      .then(res => res.json())
+      .then(data => {
+        setUseReplicate(data.useReplicate);
+        setConfigLoaded(true);
+      })
+      .catch(() => {
+        setUseReplicate(false);
+        setConfigLoaded(true);
+      });
+  }, []);
   const controlStyle = {
     display: 'flex',
     flexDirection: 'column' as const,
@@ -92,10 +106,12 @@ const VoiceControls = memo(function VoiceControls({
         />
       </div>
 
-      {/* Sliders Section - Grid Layout */}
+      {/* Sliders Section - Responsive Grid Layout */}
       <div style={{ 
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gridTemplateColumns: useReplicate 
+          ? 'repeat(auto-fit, minmax(280px, 1fr))' // Voice + Speed in row for Replicate
+          : 'repeat(auto-fit, minmax(250px, 1fr))', // All 3 controls for custom API
         gap: ds.spacing.xl,
       }}>
         {/* Speed Control */}
@@ -128,65 +144,69 @@ const VoiceControls = memo(function VoiceControls({
           </div>
         </div>
 
-        {/* Pitch Control */}
-        <div style={controlStyle}>
-          <label style={labelStyle}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
-              <FaMusic style={{ fontSize: '1.25rem' }} />
-              Pitch
-            </span>
-            <span style={valueStyle}>
-              {params.pitch.toFixed(1)}
-            </span>
-          </label>
-          <input
-            type="range"
-            min="0.5"
-            max="2"
-            step="0.1"
-            value={params.pitch}
-            onChange={(e) => onParamsChange({ ...params, pitch: parseFloat(e.target.value) })}
-            style={{
-              ...sliderStyle,
-              // @ts-ignore - CSS custom property
-              '--value': `${((params.pitch - 0.5) / 1.5) * 100}%`,
-            }}
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
-            <span>Lower (0.5)</span>
-            <span>Higher (2.0)</span>
+        {/* Pitch Control - Hidden when using Replicate */}
+        {!useReplicate && (
+          <div style={{ ...controlStyle, visibility: configLoaded ? 'visible' : 'hidden' }}>
+            <label style={labelStyle}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
+                <FaMusic style={{ fontSize: '1.25rem' }} />
+                Pitch
+              </span>
+              <span style={valueStyle}>
+                {params.pitch.toFixed(1)}
+              </span>
+            </label>
+            <input
+              type="range"
+              min="0.5"
+              max="2"
+              step="0.1"
+              value={params.pitch}
+              onChange={(e) => onParamsChange({ ...params, pitch: parseFloat(e.target.value) })}
+              style={{
+                ...sliderStyle,
+                // @ts-ignore - CSS custom property
+                '--value': `${((params.pitch - 0.5) / 1.5) * 100}%`,
+              }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
+              <span>Lower (0.5)</span>
+              <span>Higher (2.0)</span>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Volume Control */}
-        <div style={controlStyle}>
-          <label style={labelStyle}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
-              <FaVolumeUp style={{ fontSize: '1.25rem' }} />
-              Volume
-            </span>
-            <span style={valueStyle}>
-              {Math.round(params.volume * 100)}%
-            </span>
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.1"
-            value={params.volume}
-            onChange={(e) => onParamsChange({ ...params, volume: parseFloat(e.target.value) })}
-            style={{
-              ...sliderStyle,
-              // @ts-ignore - CSS custom property
-              '--value': `${params.volume * 100}%`,
-            }}
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
-            <span>Mute (0%)</span>
-            <span>Max (100%)</span>
+        {/* Volume Control - Hidden when using Replicate */}
+        {!useReplicate && (
+          <div style={{ ...controlStyle, visibility: configLoaded ? 'visible' : 'hidden' }}>
+            <label style={labelStyle}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
+                <FaVolumeUp style={{ fontSize: '1.25rem' }} />
+                Volume
+              </span>
+              <span style={valueStyle}>
+                {Math.round(params.volume * 100)}%
+              </span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={params.volume}
+              onChange={(e) => onParamsChange({ ...params, volume: parseFloat(e.target.value) })}
+              style={{
+                ...sliderStyle,
+                // @ts-ignore - CSS custom property
+                '--value': `${params.volume * 100}%`,
+              }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
+              <span>Mute (0%)</span>
+              <span>Max (100%)</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <style jsx global>{`

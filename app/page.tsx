@@ -10,7 +10,6 @@ import GenerationStatus from './components/GenerationStatus';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense } from 'react';
 
-// Lazy load SavedPrompts since it's below the fold
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
 
 export default function Home() {
@@ -29,11 +28,9 @@ export default function Home() {
     dismissError,
   } = useVoiceGenerator();
 
-  // Load voice samples from API
   const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError } = useVoiceSamples();
   const [selectedApiVoice, setSelectedApiVoice] = useState('');
 
-  // Memoize feature list to prevent re-creation
   const features = useMemo(() => [
     { text: 'Instant Generation' },
     { text: 'Voice Customization' },
@@ -45,7 +42,6 @@ export default function Home() {
     await handleGenerate(selectedApiVoice || undefined);
   };
 
-  // Memoize JSON-LD to prevent re-creation on every render
   const jsonLd = useMemo(() => ({
     '@context': 'https://schema.org',
     '@type': 'WebApplication',

@@ -177,7 +177,6 @@ const AudioPlayer = memo(function AudioPlayer({
     }
   };
 
-  // Handle seek
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!audioRef.current) return;
     const time = parseFloat(e.target.value);
@@ -193,7 +192,6 @@ const AudioPlayer = memo(function AudioPlayer({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Handle download
   const handleDownload = () => {
     if (!audioBlob && !audioUrl) return;
 

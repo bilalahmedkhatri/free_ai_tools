@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// GET /api/voiceover/[id] - Get voiceover metadata/status
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -15,10 +14,6 @@ export async function GET(
       );
     }
 
-    // TODO: Fetch voiceover metadata from database/storage
-    // In production, retrieve from your database
-    
-    // Mock response
     return NextResponse.json({
       voiceover_id: voiceoverId,
       status: 'completed', // or 'processing', 'failed'
@@ -42,7 +37,6 @@ export async function GET(
   }
 }
 
-// DELETE /api/voiceover/[id] - Delete voiceover
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -56,9 +50,6 @@ export async function DELETE(
         { status: 400 }
       );
     }
-
-    // TODO: Delete audio file from storage
-    // await deleteAudioFromStorage(voiceoverId);
 
     return NextResponse.json({
       success: true,

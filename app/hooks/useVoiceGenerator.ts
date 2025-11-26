@@ -19,13 +19,11 @@ export function useVoiceGenerator() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const generationControllerRef = useRef<AbortController | null>(null);
 
-  // Load saved prompts from localStorage on mount
   useEffect(() => {
     const prompts = promptStorage.load();
     setSavedPrompts(prompts);
   }, []);
 
-  // Save prompts to localStorage whenever they change
   useEffect(() => {
     if (savedPrompts.length > 0 || promptStorage.count() > 0) {
       promptStorage.save(savedPrompts);
@@ -47,31 +45,26 @@ export function useVoiceGenerator() {
 
     setErrorMessage(null);
 
-    // Calculate input metrics
     const charCount = params.text.length;
     const wordCount = params.text.trim().split(/\s+/).filter(Boolean).length;
     const isLongText = charCount > 2500;
     const isMediumText = charCount > 1000;
 
-    // Timer management
     const timers: ReturnType<typeof setTimeout>[] = [];
     const clearAllTimers = () => timers.forEach(clearTimeout);
 
     try {
-      // Abort any previous generation
       generationControllerRef.current?.abort();
       const controller = new AbortController();
       generationControllerRef.current = controller;
 
       setIsGenerating(true);
       
-      // Set initial message
       setStatusMessage(isLongText 
         ? `Processing ${wordCount} words (${charCount} characters) — this could take longer than usual...`
         : 'Starting generation...'
       );
 
-      // Configure timeout messages based on text length
       const timeouts = isLongText 
         ? [
             [10000, `Still processing your ${wordCount}-word text — larger inputs take more time. Our servers are working on it.`],
@@ -90,7 +83,6 @@ export function useVoiceGenerator() {
             [60000, 'Generation is still running due to high demand. Please hang tight; your audio will be ready shortly.']
           ];
 
-      // Schedule timeout messages
       timeouts.forEach(([delay, message]) => {
         timers.push(setTimeout(() => setStatusMessage(message as string), delay as number));
       });
@@ -118,7 +110,6 @@ export function useVoiceGenerator() {
       const data = await response.json();
       console.log('API Response:', data);
       
-      // Download audio
       console.log('Downloading audio from:', data.audio_url);
       const audioResponse = await fetch(data.audio_url, { signal: controller.signal });
       
@@ -130,7 +121,6 @@ export function useVoiceGenerator() {
       console.log('Audio downloaded, blob size:', audioBlob.size);
       setAudioBlob(audioBlob);
 
-      // Success cleanup
       clearAllTimers();
       setStatusMessage(null);
       setErrorMessage(null);
@@ -150,7 +140,6 @@ export function useVoiceGenerator() {
 
       const rawMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       
-      // Error message mapping
       const errorMap: Record<string, string> = {
         '404': 'The selected voice model is not available. Please try a different voice or contact support.',
         'Failed to download audio': 'The audio file could not be downloaded. Please verify the backend configuration.',
