@@ -85,15 +85,17 @@ export default function Home() {
         background: 'linear-gradient(135deg, #fef3f2 0%, #ffe4e1 30%, #ffd4cc 60%, #ffc5bd 100%)',
         position: 'relative',
       }}>
-        {/* API Toggle - Fixed Top Right */}
-        <div style={{
-          position: 'fixed',
-          top: 'clamp(1rem, 3vw, 1.5rem)',
-          right: 'clamp(1rem, 3vw, 2rem)',
-          zIndex: 1000,
-        }}>
-          <ApiToggle onToggle={handleApiToggle} />
-        </div>
+        {/* API Toggle - Fixed Top Right (Development Only) */}
+        {process.env.NODE_ENV === 'development' && (
+          <div style={{
+            position: 'fixed',
+            top: 'clamp(1rem, 3vw, 1.5rem)',
+            right: 'clamp(1rem, 3vw, 2rem)',
+            zIndex: 1000,
+          }}>
+            <ApiToggle onToggle={handleApiToggle} />
+          </div>
+        )}
 
         {/* Hero Section */}
         <section style={{
