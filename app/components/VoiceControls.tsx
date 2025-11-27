@@ -44,26 +44,32 @@ const VoiceControls = memo(function VoiceControls({
     display: 'flex',
     flexDirection: 'column' as const,
     gap: ds.spacing.md,
+    minWidth: 0,
+    width: '100%',
   };
 
   const labelStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    fontSize: ds.typography.sizes.base,
+    fontSize: 'clamp(0.875rem, 2vw, 1rem)',
     fontWeight: ds.typography.weights.semibold,
     color: ds.colors.gray[700],
     fontFamily: ds.typography.fonts.heading,
+    flexWrap: 'nowrap' as const,
+    gap: ds.spacing.xs,
   };
 
   const valueStyle = {
-    fontSize: ds.typography.sizes.lg,
+    fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
     fontWeight: ds.typography.weights.bold,
     color: ds.colors.primary[600],
     fontFamily: ds.typography.fonts.mono,
     background: ds.colors.primary[50],
-    padding: '4px 12px',
+    padding: 'clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px)',
     borderRadius: ds.borderRadius.md,
+    whiteSpace: 'nowrap' as const,
+    flexShrink: 0,
   };
 
   const sliderStyle = {
@@ -82,7 +88,7 @@ const VoiceControls = memo(function VoiceControls({
       marginBottom: 'clamp(1.5rem, 4vw, 3rem)',
     }}>
       <h3 style={{
-        fontSize: ds.typography.sizes.lg,
+        fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
         fontWeight: ds.typography.weights.semibold,
         color: ds.colors.gray[800],
         marginBottom: ds.spacing.xl,
@@ -91,7 +97,7 @@ const VoiceControls = memo(function VoiceControls({
         gap: ds.spacing.sm,
         fontFamily: ds.typography.fonts.heading,
       }}>
-        <FaSlidersH style={{ fontSize: '1.5rem' }} />
+        <FaSlidersH style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)' }} />
         Voice Parameters
       </h3>
 
@@ -110,15 +116,16 @@ const VoiceControls = memo(function VoiceControls({
       <div style={{ 
         display: 'grid',
         gridTemplateColumns: useReplicate 
-          ? 'repeat(auto-fit, minmax(280px, 1fr))' // Voice + Speed in row for Replicate
-          : 'repeat(auto-fit, minmax(250px, 1fr))', // All 3 controls for custom API
-        gap: ds.spacing.xl,
+          ? 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))' // Voice + Speed in row for Replicate
+          : 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', // All 3 controls for custom API
+        gap: 'clamp(1rem, 3vw, 1.5rem)',
+        width: '100%',
       }}>
         {/* Speed Control */}
         <div style={controlStyle}>
           <label style={labelStyle}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
-              <SiSpeedtest style={{ fontSize: '1.25rem' }} />
+            <span style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.3rem, 1vw, 0.5rem)' }}>
+              <SiSpeedtest style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', flexShrink: 0 }} />
               Speed
             </span>
             <span style={valueStyle}>
@@ -138,7 +145,7 @@ const VoiceControls = memo(function VoiceControls({
               '--value': `${((params.rate - 0.5) / 1.5) * 100}%`,
             }}
           />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(0.7rem, 1.8vw, 0.75rem)', color: ds.colors.gray[500] }}>
             <span>Slow (0.5x)</span>
             <span>Fast (2.0x)</span>
           </div>
@@ -148,8 +155,8 @@ const VoiceControls = memo(function VoiceControls({
         {!useReplicate && (
           <div style={{ ...controlStyle, visibility: configLoaded ? 'visible' : 'hidden' }}>
             <label style={labelStyle}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
-                <FaMusic style={{ fontSize: '1.25rem' }} />
+              <span style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.3rem, 1vw, 0.5rem)' }}>
+                <FaMusic style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', flexShrink: 0 }} />
                 Pitch
               </span>
               <span style={valueStyle}>
@@ -169,7 +176,7 @@ const VoiceControls = memo(function VoiceControls({
                 '--value': `${((params.pitch - 0.5) / 1.5) * 100}%`,
               }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(0.7rem, 1.8vw, 0.75rem)', color: ds.colors.gray[500] }}>
               <span>Lower (0.5)</span>
               <span>Higher (2.0)</span>
             </div>
@@ -180,8 +187,8 @@ const VoiceControls = memo(function VoiceControls({
         {!useReplicate && (
           <div style={{ ...controlStyle, visibility: configLoaded ? 'visible' : 'hidden' }}>
             <label style={labelStyle}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: ds.spacing.sm }}>
-                <FaVolumeUp style={{ fontSize: '1.25rem' }} />
+              <span style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.3rem, 1vw, 0.5rem)' }}>
+                <FaVolumeUp style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', flexShrink: 0 }} />
                 Volume
               </span>
               <span style={valueStyle}>
@@ -201,7 +208,7 @@ const VoiceControls = memo(function VoiceControls({
                 '--value': `${params.volume * 100}%`,
               }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: ds.typography.sizes.xs, color: ds.colors.gray[500] }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(0.7rem, 1.8vw, 0.75rem)', color: ds.colors.gray[500] }}>
               <span>Mute (0%)</span>
               <span>Max (100%)</span>
             </div>

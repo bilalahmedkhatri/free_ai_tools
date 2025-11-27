@@ -45,7 +45,6 @@ export default function Home() {
     { text: 'Instant Generation' },
     { text: 'Voice Customization' },
     { text: 'Save Prompts' },
-    { text: 'Free & Browser-based' },
   ], []);
 
   const handleGenerateClick = async () => {
