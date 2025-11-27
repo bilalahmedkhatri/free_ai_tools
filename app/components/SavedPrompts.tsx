@@ -122,12 +122,22 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
               boxSizing: 'border-box',
             }}
             onFocus={(e) => {
-              e.currentTarget.style.borderColor = ds.colors.primary[400];
-              e.currentTarget.style.boxShadow = ds.shadows.coloredGlow;
+              e.currentTarget.style.borderColor = '#ff9b8f';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255, 155, 143, 0.1)';
             }}
             onBlur={(e) => {
               e.currentTarget.style.borderColor = ds.colors.gray[200];
               e.currentTarget.style.boxShadow = ds.shadows.sm;
+            }}
+            onMouseEnter={(e) => {
+              if (document.activeElement !== e.currentTarget) {
+                e.currentTarget.style.borderColor = '#ffb4a8';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (document.activeElement !== e.currentTarget) {
+                e.currentTarget.style.borderColor = ds.colors.gray[200];
+              }
             }}
           />
         </div>
@@ -170,10 +180,10 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
                 onMouseLeave={() => setHoveredIndex(null)}
                 style={{
                   background: 'white',
-                  border: `2px solid ${hoveredIndex === index ? ds.colors.primary[300] : ds.colors.gray[200]}`,
+                  border: `2px solid ${hoveredIndex === index ? '#ff9b8f' : ds.colors.gray[200]}`,
                   borderRadius: ds.borderRadius.xl,
                   padding: ds.spacing.lg,
-                  boxShadow: hoveredIndex === index ? ds.shadows.coloredGlow : ds.shadows.md,
+                  boxShadow: hoveredIndex === index ? '0 10px 25px rgba(255, 155, 143, 0.2)' : ds.shadows.md,
                   transition: `all ${ds.transitions.base}`,
                   transform: hoveredIndex === index ? 'translateY(-4px)' : 'translateY(0)',
                   display: 'flex',
