@@ -237,7 +237,7 @@ export default function Home() {
                     padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem)',
                     background: isGenerating 
                       ? ds.colors.gray[400]
-                      : 'linear-gradient(135deg, #9333ea 0%, #7c3aed 100%)',
+                      : 'linear-gradient(135deg, #ff9b8f 0%, #ffb4a8 100%)',
                     color: 'white',
                     border: 'none',
                     borderRadius: ds.borderRadius.lg,

@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const API_BASE_URL = process.env.VOICEOVER_API_URL;
 
 export interface VoiceoverRequest {
   text: string;
@@ -81,7 +81,8 @@ export async function generateVoiceover(
  * Get available voice samples/tones
  */
 export async function getVoiceSamples(): Promise<VoiceSample[]> {
-  const response = await fetch(`${API_BASE_URL}/api/voiceover/voiceover_samples`);
+  // Call Next.js API route instead of backend directly
+  const response = await fetch('/api/voiceover/voiceover_samples');
 
   if (!response.ok) {
     const error = await response.json();

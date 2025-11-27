@@ -3,7 +3,11 @@ import { getAvailableReplicateVoices } from '@/app/lib/replicateService';
 
 export async function GET(request: NextRequest) {
   try {
-    const useReplicate = process.env.USE_REPLICATE === 'true';
+    // Fetch runtime config to check which API to use
+    const configResponse = await fetch(`${request.nextUrl.origin}/api/voiceover/config`);
+    const config = await configResponse.json();
+    const useReplicate = config.useReplicate;
+    
     console.log('[Voice Samples] USE_REPLICATE:', useReplicate);
 
     if (useReplicate) {
@@ -15,6 +19,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(voices);
     }
 
+    console.log('[Voice Samples] Using Default API voices');
     const apiUrl = process.env.VOICEOVER_API_URL || 'http://localhost:8000';
     const response = await fetch(`${apiUrl}/api/voiceover/voiceover_samples`, {
       method: 'GET',
@@ -34,15 +39,22 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
     
-    // Validate response format
-    if (!Array.isArray(data)) {
-      return NextResponse.json(
-        { error: 'Invalid response format from voice API' },
-        { status: 500 }
-      );
+    // Backend returns { voices: [...], total: number, language: string }
+    // Extract the voices array
+    if (data.voices && Array.isArray(data.voices)) {
+      return NextResponse.json(data.voices);
     }
-
-    return NextResponse.json(data);
+    
+    // Fallback: if response is already an array
+    if (Array.isArray(data)) {
+      return NextResponse.json(data);
+    }
+    
+    // Invalid format
+    return NextResponse.json(
+      { error: 'Invalid response format from voice API' },
+      { status: 500 }
+    );
 
   } catch (error) {
     console.error('Error fetching voice samples:', error);

@@ -305,7 +305,7 @@ const AudioPlayer = memo(function AudioPlayer({
             left: 0,
             height: '100%',
             width: `${(currentTime / duration) * 100}%`,
-            background: 'linear-gradient(90deg, #9333ea 0%, #a855f7 100%)',
+            background: 'linear-gradient(90deg, #ff9b8f 0%, #ffb4a8 100%)',
             borderRadius: ds.borderRadius.full,
             transition: isPlaying ? 'none' : 'width 0.1s ease',
           }} />
@@ -339,8 +339,8 @@ const AudioPlayer = memo(function AudioPlayer({
             width: '64px',
             height: '64px',
             background: isPlaying 
-              ? 'linear-gradient(135deg, #7c3aed 0%, #9333ea 100%)'
-              : 'linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%)',
+              ? 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)'
+              : 'linear-gradient(135deg, #fbcfe8 0%, #f9a8d4 100%)',
             color: 'white',
             border: 'none',
             borderRadius: '50%',
@@ -349,7 +349,9 @@ const AudioPlayer = memo(function AudioPlayer({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: isPlaying ? ds.shadows.xl : ds.shadows.lg,
+            boxShadow: isPlaying 
+              ? '0 8px 20px rgba(236, 72, 153, 0.4)'
+              : '0 4px 14px rgba(249, 168, 212, 0.3)',
             opacity: isLoading ? 0.5 : 1,
           }}
           onMouseEnter={(e) => {
@@ -376,7 +378,7 @@ const AudioPlayer = memo(function AudioPlayer({
             padding: `${ds.spacing.sm} ${ds.spacing.lg}`,
             background: isLoading || (!audioUrl && !audioBlob)
               ? ds.colors.gray[300]
-              : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              : 'linear-gradient(135deg, #ff9b8f 0%, #ffb4a8 100%)',
             color: 'white',
             border: 'none',
             borderRadius: ds.borderRadius.lg,

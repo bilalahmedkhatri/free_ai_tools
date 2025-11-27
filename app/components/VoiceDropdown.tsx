@@ -103,15 +103,21 @@ export default function VoiceDropdown({
             style={{
               flex: 1,
               padding: `${ds.spacing.sm} ${ds.spacing.md}`,
-              border: `1px solid ${ds.colors.gray[300]}`,
+              paddingRight: 'clamp(2rem, 5vw, 2.5rem)',
+              border: '1px solid #e5e7eb',
               borderRadius: ds.borderRadius.lg,
               fontSize: ds.typography.sizes.base,
               fontFamily: ds.typography.fonts.body,
               backgroundColor: 'white',
               cursor: loading || error ? 'not-allowed' : 'pointer',
               outline: 'none',
-              transition: `all ${ds.transitions.base}`,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               color: ds.colors.gray[800],
+              appearance: 'none',
+              backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 0.75rem center',
+              backgroundSize: '1.25rem',
             }}
             onFocus={(e) => {
               if (!loading && !error) {
@@ -120,10 +126,20 @@ export default function VoiceDropdown({
               }
             }}
             onBlur={(e) => {
-              e.currentTarget.style.borderColor = ds.colors.gray[300];
+              e.currentTarget.style.borderColor = '#e5e7eb';
               e.currentTarget.style.boxShadow = 'none';
               if (selectedVoice) {
                 setIsDropdownOpen(false);
+              }
+            }}
+            onMouseEnter={(e) => {
+              if (!loading && !error && e.currentTarget !== document.activeElement) {
+                e.currentTarget.style.borderColor = '#ffb4a8';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (e.currentTarget !== document.activeElement) {
+                e.currentTarget.style.borderColor = '#e5e7eb';
               }
             }}
           >
@@ -153,7 +169,9 @@ export default function VoiceDropdown({
             style={{
               width: 'clamp(64px, 15vw, 96px)',
               height: 'clamp(64px, 15vw, 96px)',
-              background: 'linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%)',
+              background: isPlaying 
+                ? 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)'
+                : 'linear-gradient(135deg, #fde68a 0%, #fcd34d 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '50%',
@@ -162,16 +180,20 @@ export default function VoiceDropdown({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 14px rgba(139, 92, 246, 0.4)',
+              boxShadow: isPlaying 
+                ? '0 4px 14px rgba(245, 158, 11, 0.5)'
+                : '0 4px 14px rgba(251, 191, 36, 0.4)',
               flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(139, 92, 246, 0.5)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.6)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(139, 92, 246, 0.4)';
+              e.currentTarget.style.boxShadow = isPlaying 
+                ? '0 4px 14px rgba(245, 158, 11, 0.5)'
+                : '0 4px 14px rgba(251, 191, 36, 0.4)';
             }}
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >

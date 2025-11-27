@@ -67,8 +67,47 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="http://localhost:8000" />
         <link rel="dns-prefetch" href="http://localhost:8000" />
+        <style dangerouslySetInnerHTML={{__html: `
+          * {
+            scrollbar-width: thin;
+            scrollbar-color: #ff9b8f #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+          
+          *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+          }
+          
+          *::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 4px;
+          }
+          
+          *::-webkit-scrollbar-thumb {
+            background: #ff9b8f;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+          }
+          
+          *::-webkit-scrollbar-thumb:hover {
+            background: #ffb4a8;
+          }
+          
+          html {
+            scroll-behavior: smooth;
+          }
+          
+          select, input, textarea, button {
+            -webkit-tap-highlight-color: transparent;
+          }
+        `}} />
       </head>
-      <body style={{ margin: 0, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+      <body style={{ 
+        margin: 0, 
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      }}>
         {children}
       </body>
     </html>

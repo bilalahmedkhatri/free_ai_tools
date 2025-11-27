@@ -78,7 +78,7 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
           </h3>
           <span style={{
             padding: `${ds.spacing.xs} ${ds.spacing.md}`,
-            background: `linear-gradient(135deg, ${ds.colors.primary[500]}, ${ds.colors.secondary[500]})`,
+            background: 'linear-gradient(135deg, #ff9b8f 0%, #ffb4a8 100%)',
             color: 'white',
             borderRadius: ds.borderRadius.full,
             fontSize: ds.typography.sizes.sm,
@@ -233,7 +233,7 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
                     style={{
                       flex: 1,
                       padding: `${ds.spacing.sm} ${ds.spacing.md}`,
-                      background: `linear-gradient(135deg, ${ds.colors.primary[500]}, ${ds.colors.secondary[500]})`,
+                      background: 'linear-gradient(135deg, #ff9b8f 0%, #ffb4a8 100%)',
                       color: 'white',
                       border: 'none',
                       borderRadius: ds.borderRadius.lg,

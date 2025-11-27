@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { designSystem as ds } from '../lib/designSystem';
+import Toast from './Toast';
 
 interface ApiToggleProps {
   onToggle?: (useReplicate: boolean) => void;
@@ -9,6 +10,7 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
   const [useReplicate, setUseReplicate] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSwitching, setIsSwitching] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'error' | 'warning' | 'success' | 'info' } | null>(null);
 
   useEffect(() => {
     // Fetch current config
@@ -26,15 +28,38 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
   const handleToggle = async () => {
     setIsSwitching(true);
     try {
+      const newUseReplicate = !useReplicate;
+      
       const response = await fetch('/api/voiceover/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ useReplicate: !useReplicate }),
+        body: JSON.stringify({ useReplicate: newUseReplicate }),
       });
       
       if (response.ok) {
         const data = await response.json();
         setUseReplicate(data.useReplicate);
+        
+        // Check if switching to Default API (useReplicate = false)
+        if (!data.useReplicate) {
+          // Try to fetch voices to verify API is working
+          try {
+            const voicesResponse = await fetch('/api/voiceover/voiceover_samples');
+            if (!voicesResponse.ok) {
+              const error = await voicesResponse.json();
+              setToast({
+                message: `Failed to connect to the default API server.\n\n${error.error || 'Please make sure your backend API is running at http://localhost:8000'}`,
+                type: 'warning'
+              });
+            }
+          } catch (err) {
+            setToast({
+              message: 'Failed to connect to the default API server. Please make sure your backend API is running at http://localhost:8000',
+              type: 'warning'
+            });
+          }
+        }
+        
         // Notify parent component to refresh affected areas
         if (onToggle) {
           onToggle(data.useReplicate);
@@ -42,6 +67,10 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
       }
     } catch (error) {
       console.error('Failed to toggle API mode:', error);
+      setToast({
+        message: 'Failed to toggle API mode. Please try again.',
+        type: 'error'
+      });
     } finally {
       setIsSwitching(false);
     }
@@ -104,6 +133,14 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
           left: 1.25rem;
         }
       `}</style>
+      
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </label>
   );
 }

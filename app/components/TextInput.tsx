@@ -88,11 +88,22 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
             lineHeight: ds.typography.lineHeights.relaxed,
             resize: 'none',
             overflow: 'auto',
-            transition: `all ${ds.transitions.base}`,
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             outline: 'none',
             backgroundColor: 'white',
             boxShadow: isFocused ? '0 0 0 3px rgba(255, 155, 143, 0.1)' : 'none',
             boxSizing: 'border-box',
+            scrollBehavior: 'smooth',
+          }}
+          onMouseEnter={(e) => {
+            if (!isFocused) {
+              e.currentTarget.style.borderColor = '#ffb4a8';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!isFocused) {
+              e.currentTarget.style.borderColor = '#e5e7eb';
+            }
           }}
         />
         
@@ -160,7 +171,7 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
             alignItems: 'center',
             gap: ds.spacing.sm,
             padding: `${ds.spacing.sm} ${ds.spacing.lg}`,
-            background: text.trim() ? '#9333ea' : ds.colors.gray[300],
+            background: text.trim() ? 'linear-gradient(135deg, #ff9b8f 0%, #ffb4a8 100%)' : ds.colors.gray[300],
             color: 'white',
             border: 'none',
             borderRadius: ds.borderRadius.lg,
@@ -173,12 +184,14 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
           }}
           onMouseEnter={(e) => {
             if (text.trim()) {
-              e.currentTarget.style.background = '#7e22ce';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = ds.shadows.lg;
             }
           }}
           onMouseLeave={(e) => {
             if (text.trim()) {
-              e.currentTarget.style.background = '#9333ea';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
             }
           }}
         >
