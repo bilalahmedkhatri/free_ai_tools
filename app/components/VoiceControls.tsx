@@ -61,12 +61,12 @@ const VoiceControls = memo(function VoiceControls({
   };
 
   const valueStyle = {
-    fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
-    fontWeight: ds.typography.weights.bold,
+    fontSize: 'clamp(0.75rem, 1.8vw, 0.95rem)',
+    fontWeight: ds.typography.weights.semibold,
     color: ds.colors.primary[600],
     fontFamily: ds.typography.fonts.mono,
     background: ds.colors.primary[50],
-    padding: 'clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px)',
+    padding: 'clamp(2px, 1vw, 4px) clamp(6px, 1.5vw, 10px)',
     borderRadius: ds.borderRadius.md,
     whiteSpace: 'nowrap' as const,
     flexShrink: 0,

@@ -29,7 +29,7 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Error fetching voiceover:', error);
+    // console.error('Error fetching voiceover:', error);
     return NextResponse.json(
       { error: 'Failed to fetch voiceover' },
       { status: 500 }
@@ -57,7 +57,7 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error('Error deleting voiceover:', error);
+    // console.error('Error deleting voiceover:', error);
     return NextResponse.json(
       { error: 'Failed to delete voiceover' },
       { status: 500 }

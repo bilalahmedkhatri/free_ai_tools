@@ -48,7 +48,7 @@ export async function generateWithReplicate(params: ReplicateVoiceParams): Promi
     input.speed = params.speed;
   }
 
-  console.log('Replicate input:', input);
+  // console.log('Replicate input:', input);
 
   const output = await replicate.run(KOKORO_MODEL, { input }) as any;
 

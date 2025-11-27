@@ -28,7 +28,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error serving voice sample:', error);
+    // console.error('Error serving voice sample:', error);
     return NextResponse.json(
       { error: 'Failed to load voice sample' },
       { status: 500 }

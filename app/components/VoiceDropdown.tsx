@@ -43,8 +43,8 @@ export default function VoiceDropdown({
     setIsPlaying(true);
 
     audio.play().catch((err) => {
-      console.error('Error playing audio:', err);
-      console.error('Original Sample URL:', selectedVoiceData.sample_url);
+      // console.error('Error playing audio:', err);
+      // console.error('Original Sample URL:', selectedVoiceData.sample_url);
       setIsPlaying(false);
       alert(`Failed to play audio sample. Error: ${err.message}\n\nOriginal URL: ${selectedVoiceData.sample_url}`);
     });
@@ -54,8 +54,8 @@ export default function VoiceDropdown({
     };
 
     audio.onerror = (err) => {
-      console.error('Audio error event:', err);
-      console.error('Original Sample URL:', selectedVoiceData.sample_url);
+      // console.error('Audio error event:', err);
+      // console.error('Original Sample URL:', selectedVoiceData.sample_url);
       setIsPlaying(false);
       alert(`Failed to load audio file. Check console for details.`);
     };
@@ -93,7 +93,7 @@ export default function VoiceDropdown({
 
       {!selectedVoice || isDropdownOpen ? (
         // Dropdown mode - show when no selection or user wants to change
-        <div style={{ display: 'flex', gap: ds.spacing.sm, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: ds.spacing.sm, alignItems: 'center', width: '100%', maxWidth: '100%', minWidth: 0 }}>
           <select
             id="voice-select"
             value={selectedVoice}
@@ -107,11 +107,13 @@ export default function VoiceDropdown({
             autoFocus={isDropdownOpen}
             style={{
               flex: 1,
+              maxWidth: '100%',
+              minWidth: 0,
               padding: `${ds.spacing.sm} ${ds.spacing.md}`,
               paddingRight: 'clamp(2rem, 5vw, 2.5rem)',
               border: '1px solid #e5e7eb',
               borderRadius: ds.borderRadius.lg,
-              fontSize: ds.typography.sizes.base,
+              fontSize: 'clamp(0.8rem, 2vw, 0.95rem)',
               fontFamily: ds.typography.fonts.body,
               backgroundColor: 'white',
               cursor: loading || error ? 'not-allowed' : 'pointer',
@@ -123,6 +125,9 @@ export default function VoiceDropdown({
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right 0.75rem center',
               backgroundSize: '1.25rem',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
             }}
             onFocus={(e) => {
               if (!loading && !error) {
@@ -219,7 +224,7 @@ export default function VoiceDropdown({
               marginBottom: ds.spacing.xs,
             }}>
               <h4 style={{
-                fontSize: ds.typography.sizes.base,
+                fontSize: 'clamp(0.85rem, 2vw, 1rem)',
                 fontWeight: ds.typography.weights.semibold,
                 color: ds.colors.gray[900],
                 fontFamily: ds.typography.fonts.heading,
@@ -227,6 +232,7 @@ export default function VoiceDropdown({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                maxWidth: '100%',
               }}>
                 {selectedVoiceData?.voice_name}
               </h4>
@@ -236,7 +242,7 @@ export default function VoiceDropdown({
                   background: 'none',
                   border: 'none',
                   color: '#9333ea',
-                  fontSize: ds.typography.sizes.sm,
+                  fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)',
                   fontWeight: ds.typography.weights.medium,
                   cursor: 'pointer',
                   textDecoration: 'underline',
@@ -257,7 +263,7 @@ export default function VoiceDropdown({
             
             {selectedVoiceData?.description && (
               <p style={{
-                fontSize: ds.typography.sizes.xs,
+                fontSize: 'clamp(0.7rem, 1.8vw, 0.75rem)',
                 color: ds.colors.gray[600],
                 fontFamily: ds.typography.fonts.body,
                 margin: 0,
@@ -281,7 +287,7 @@ export default function VoiceDropdown({
             }}>
               {selectedVoiceData?.gender && (
                 <span style={{
-                  fontSize: ds.typography.sizes.xs,
+                  fontSize: 'clamp(0.65rem, 1.6vw, 0.75rem)',
                   padding: `2px ${ds.spacing.xs}`,
                   background: ds.colors.gray[100],
                   borderRadius: ds.borderRadius.full,
@@ -293,7 +299,7 @@ export default function VoiceDropdown({
               )}
               {selectedVoiceData?.accent && (
                 <span style={{
-                  fontSize: ds.typography.sizes.xs,
+                  fontSize: 'clamp(0.65rem, 1.6vw, 0.75rem)',
                   padding: `2px ${ds.spacing.xs}`,
                   background: ds.colors.gray[100],
                   borderRadius: ds.borderRadius.full,

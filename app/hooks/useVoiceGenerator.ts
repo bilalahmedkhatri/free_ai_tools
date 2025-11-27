@@ -103,14 +103,14 @@ export function useVoiceGenerator() {
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('API Error:', error);
+        // console.error('API Error:', error);
         throw new Error(error.error || 'Failed to generate voiceover');
       }
 
       const data = await response.json();
-      console.log('API Response:', data);
-      
-      console.log('Downloading audio from:', data.audio_url);
+      // console.log('API Response:', data);
+
+      // console.log('Downloading audio from:', data.audio_url);
       const audioResponse = await fetch(data.audio_url, { signal: controller.signal });
       
       if (!audioResponse.ok) {
@@ -118,7 +118,7 @@ export function useVoiceGenerator() {
       }
       
       const audioBlob = await audioResponse.blob();
-      console.log('Audio downloaded, blob size:', audioBlob.size);
+      // console.log('Audio downloaded, blob size:', audioBlob.size);
       setAudioBlob(audioBlob);
 
       clearAllTimers();
@@ -129,7 +129,7 @@ export function useVoiceGenerator() {
     } catch (error) {
       clearAllTimers();
       setIsGenerating(false);
-      console.error('Error generating voiceover:', error);
+      // console.error('Error generating voiceover:', error);
       
       if (error instanceof Error && error.name === 'AbortError') {
         setStatusMessage('Generation was interrupted. Please try again.');

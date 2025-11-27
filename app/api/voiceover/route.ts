@@ -23,14 +23,14 @@ export async function POST(request: NextRequest) {
     const config = await configResponse.json();
     const useReplicate = config.useReplicate;
 
-    if (useReplicate) {
-      console.log('=== Using Replicate Kokoro-82M ===');
-      console.log('Voice:', voice_id);
-      console.log('Text length:', text.length);
-      console.log('Parameters: speed=' + speed + ', pitch=' + pitch + ', volume=' + volume);
+    if (config.useReplicate) {
+      // console.log('=== Using Replicate Kokoro-82M ===');
+      // console.log('Voice:', voice_id);
+      // console.log('Text length:', text.length);
+      // console.log('Parameters: speed=' + speed + ', pitch=' + pitch + ', volume=' + volume);
       
-      if (pitch !== 1 || volume !== 0.8) {
-        console.warn('⚠️  Kokoro-82M only supports speed parameter. Pitch and volume will be ignored.');
+      if (pitch !== 1 || volume !== 1) {
+        // console.warn('⚠️  Kokoro-82M only supports speed parameter. Pitch and volume will be ignored.');
       }
       
       const result = await generateWithReplicate({
@@ -59,9 +59,9 @@ export async function POST(request: NextRequest) {
     const apiUrl = process.env.VOICEOVER_API_URL || 'http://localhost:8000';
     const endpoint = `${apiUrl}/api/voiceover/free_tool`;
     
-    console.log('=== Using Custom API ===');
-    console.log('Endpoint:', endpoint);
-    console.log('Body:', JSON.stringify({ text, voice_id, speed, pitch, volume, tone }, null, 2));
+    // console.log('=== Using Custom API ===');
+    // console.log('Endpoint:', endpoint);
+    // console.log('Body:', JSON.stringify({ text, voice_id, speed, pitch, volume, tone }, null, 2));
     
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -73,11 +73,11 @@ export async function POST(request: NextRequest) {
       let errorMessage = 'Failed to generate voiceover';
       try {
         const error = await response.json();
-        console.error('API Error Response:', error);
+        // console.error('API Error Response:', error);
         errorMessage = error.detail || error.message || JSON.stringify(error);
       } catch {
         errorMessage = await response.text() || `API returned status ${response.status}`;
-        console.error('API Error Text:', errorMessage);
+        // console.error('API Error Text:', errorMessage);
       }
       
       return NextResponse.json({ error: errorMessage }, { status: response.status });
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('Error generating voiceover:', error);
+    // console.error('Error generating voiceover:', error);
     return NextResponse.json(
       { error: error.message || 'Failed to generate voiceover. Please check if the API server is running.' },
       { status: error.status || 500 }

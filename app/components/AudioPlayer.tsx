@@ -82,7 +82,7 @@ const AudioPlayer = memo(function AudioPlayer({
 
     audio.onerror = () => {
       setIsLoading(false);
-      console.error('Error loading audio');
+      // console.error('Error loading audio');
     };
 
     audioRef.current = audio;
@@ -94,7 +94,7 @@ const AudioPlayer = memo(function AudioPlayer({
         sourceRef.current.connect(analyserRef.current);
         analyserRef.current.connect(audioContextRef.current.destination);
       } catch (err) {
-        console.error('Error connecting audio context:', err);
+        // console.error('Error connecting audio context:', err);
       }
     }
 
@@ -105,6 +105,18 @@ const AudioPlayer = memo(function AudioPlayer({
       }
     };
   }, [audioUrl, audioBlob, onEnded]);
+
+  // Stop audio playback when generation starts
+  useEffect(() => {
+    if (isGenerating && audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      setIsPlaying(false);
+      setCurrentTime(0);
+    }
+  }, [isGenerating, isPlaying]);
 
   // Visualize audio
   const visualize = () => {
@@ -173,7 +185,7 @@ const AudioPlayer = memo(function AudioPlayer({
         visualize();
       }
     } catch (err) {
-      console.error('Error playing audio:', err);
+      // console.error('Error playing audio:', err);
     }
   };
 

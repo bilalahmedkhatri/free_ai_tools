@@ -8,18 +8,18 @@ export async function GET(request: NextRequest) {
     const config = await configResponse.json();
     const useReplicate = config.useReplicate;
     
-    console.log('[Voice Samples] USE_REPLICATE:', useReplicate);
+    // console.log('[Voice Samples] USE_REPLICATE:', useReplicate);
 
     if (useReplicate) {
-      console.log('[Voice Samples] Using Replicate voices');
+      // console.log('[Voice Samples] Using Replicate voices');
       const voices = getAvailableReplicateVoices();
-      console.log('[Voice Samples] Loaded voices count:', voices.length);
-      console.log('[Voice Samples] First voice:', JSON.stringify(voices[0], null, 2));
+      // console.log('[Voice Samples] Loaded voices count:', voices.length);
+      // console.log('[Voice Samples] First voice:', JSON.stringify(voices[0], null, 2));
       
       return NextResponse.json(voices);
     }
 
-    console.log('[Voice Samples] Using Default API voices');
+    // console.log('[Voice Samples] Using Default API voices');
     const apiUrl = process.env.VOICEOVER_API_URL || 'http://localhost:8000';
     const response = await fetch(`${apiUrl}/api/voiceover/voiceover_samples`, {
       method: 'GET',
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('Error fetching voice samples:', error);
+    // console.error('Error fetching voice samples:', error);
     return NextResponse.json(
       { 
         error: 'Failed to fetch voice samples. Please check if the API server is running.',

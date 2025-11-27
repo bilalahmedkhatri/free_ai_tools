@@ -11,7 +11,7 @@ export const promptStorage = {
       }
       return [];
     } catch (error) {
-      console.error('Failed to load saved prompts from localStorage:', error);
+      // console.error('Failed to load saved prompts from localStorage:', error);
       return [];
     }
   },
@@ -23,7 +23,7 @@ export const promptStorage = {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(prompts));
       return true;
     } catch (error) {
-      console.error('Failed to save prompts to localStorage:', error);
+      // console.error('Failed to save prompts to localStorage:', error);
       return false;
     }
   },
@@ -39,7 +39,7 @@ export const promptStorage = {
       prompts.push(prompt);
       return promptStorage.save(prompts);
     } catch (error) {
-      console.error('Failed to add prompt:', error);
+      // console.error('Failed to add prompt:', error);
       return false;
     }
   },
@@ -55,7 +55,7 @@ export const promptStorage = {
       prompts.splice(index, 1);
       return promptStorage.save(prompts);
     } catch (error) {
-      console.error('Failed to remove prompt:', error);
+      // console.error('Failed to remove prompt:', error);
       return false;
     }
   },
@@ -67,7 +67,7 @@ export const promptStorage = {
       localStorage.removeItem(STORAGE_KEY);
       return true;
     } catch (error) {
-      console.error('Failed to clear prompts:', error);
+      // console.error('Failed to clear prompts:', error);
       return false;
     }
   },

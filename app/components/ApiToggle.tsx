@@ -66,7 +66,7 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
         }
       }
     } catch (error) {
-      console.error('Failed to toggle API mode:', error);
+      // console.error('Failed to toggle API mode:', error);
       setToast({
         message: 'Failed to toggle API mode. Please try again.',
         type: 'error'
