@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { FaPlay, FaPause, FaMicrophone } from 'react-icons/fa';
 import { designSystem as ds } from '../lib/designSystem';
 import { VoiceSample } from '../lib/voiceoverApi';
+import LoadingSkeleton from './LoadingSkeleton';
 
 interface VoiceDropdownProps {
   voices: VoiceSample[];
@@ -23,6 +24,10 @@ export default function VoiceDropdown({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const selectedVoiceData = voices.find(v => v.voice_id === selectedVoice);
+
+  if (loading) {
+    return <LoadingSkeleton variant="voiceDropdown" />;
+  }
 
   const handlePlaySample = (e: React.MouseEvent) => {
     e.stopPropagation();

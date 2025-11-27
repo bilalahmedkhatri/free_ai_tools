@@ -10,6 +10,7 @@ import GenerationStatus from './components/GenerationStatus';
 import ApiToggle from './components/ApiToggle';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense } from 'react';
+import LoadingSkeleton from './components/LoadingSkeleton';
 
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
 
@@ -300,12 +301,10 @@ export default function Home() {
               <section style={{
                 background: 'white',
                 borderRadius: ds.borderRadius['2xl'],
-                padding: ds.spacing['3xl'],
+                padding: 'clamp(1.5rem, 4vw, 3rem)',
                 boxShadow: ds.shadows.md,
-                textAlign: 'center',
-                color: ds.colors.gray[500],
               }}>
-                Loading saved prompts...
+                <LoadingSkeleton variant="savedPrompts" />
               </section>
             }>
               <section style={{
