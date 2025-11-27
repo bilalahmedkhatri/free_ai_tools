@@ -40,5 +40,5 @@ export function useVoiceSamples() {
     fetchVoices();
   }, [fetchVoices]);
 
-  return { voices, loading, error };
+  return { voices, loading, error, refetch: fetchVoices };
 }

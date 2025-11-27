@@ -7,6 +7,7 @@ import TextInput from './components/TextInput';
 import VoiceControls from './components/VoiceControls';
 import AudioPlayer from './components/AudioPlayer';
 import GenerationStatus from './components/GenerationStatus';
+import ApiToggle from './components/ApiToggle';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense } from 'react';
 
@@ -28,8 +29,16 @@ export default function Home() {
     dismissError,
   } = useVoiceGenerator();
 
-  const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError } = useVoiceSamples();
+  const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError, refetch: refetchVoices } = useVoiceSamples();
   const [selectedApiVoice, setSelectedApiVoice] = useState('');
+  const [apiModeKey, setApiModeKey] = useState(0);
+
+  const handleApiToggle = (useReplicate: boolean) => {
+    // Force re-render of VoiceControls and refetch voices
+    setApiModeKey(prev => prev + 1);
+    refetchVoices();
+    setSelectedApiVoice(''); // Reset selected voice
+  };
 
   const features = useMemo(() => [
     { text: 'Instant Generation' },
@@ -74,12 +83,23 @@ export default function Home() {
       <main style={{ 
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #fef3f2 0%, #ffe4e1 30%, #ffd4cc 60%, #ffc5bd 100%)',
+        position: 'relative',
       }}>
+        {/* API Toggle - Fixed Top Right */}
+        <div style={{
+          position: 'fixed',
+          top: 'clamp(1rem, 3vw, 1.5rem)',
+          right: 'clamp(1rem, 3vw, 2rem)',
+          zIndex: 1000,
+        }}>
+          <ApiToggle onToggle={handleApiToggle} />
+        </div>
+
         {/* Hero Section */}
         <section style={{
           background: 'linear-gradient(135deg, #ffc9c1 0%, #ffb4a8 100%)',
           color: '#1a1a1a',
-          padding: `${ds.spacing['4xl']} ${ds.spacing.xl} ${ds.spacing['3xl']}`,
+          padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 4vw, 3rem)',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
@@ -98,9 +118,10 @@ export default function Home() {
             margin: '0 auto',
             position: 'relative',
             zIndex: 1,
+            padding: '0 clamp(1rem, 3vw, 2rem)',
           }}>
             <h1 style={{
-              fontSize: ds.typography.sizes['4xl'],
+              fontSize: 'clamp(2rem, 5vw, 3.75rem)',
               fontWeight: ds.typography.weights.extrabold,
               fontFamily: ds.typography.fonts.heading,
               marginBottom: ds.spacing.md,
@@ -110,13 +131,14 @@ export default function Home() {
               AI Voiceover Generator
             </h1>
             <p style={{
-              fontSize: ds.typography.sizes.lg,
+              fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
               fontFamily: ds.typography.fonts.body,
               maxWidth: '700px',
               margin: `0 auto ${ds.spacing.lg}`,
               color: '#2d2d2d',
               lineHeight: '1.6',
               fontWeight: ds.typography.weights.normal,
+              padding: '0 1rem',
             }}>
               Transform your text into natural-sounding speech with advanced voice controls. 
               Perfect for content creators, educators, and accessibility.
@@ -155,7 +177,7 @@ export default function Home() {
         <div style={{ 
           maxWidth: '1400px', 
           margin: '0 auto', 
-          padding: ds.spacing['3xl'],
+          padding: 'clamp(1rem, 4vw, 4rem)',
         }}>
           {/* Generator Section */}
           <section 
@@ -163,9 +185,9 @@ export default function Home() {
             style={{
               background: 'white',
               borderRadius: ds.borderRadius.xl,
-              padding: ds.spacing['2xl'],
+              padding: 'clamp(1rem, 3vw, 2rem)',
               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              marginBottom: ds.spacing['2xl'],
+              marginBottom: 'clamp(1.5rem, 4vw, 3rem)',
             }}
           >
             <h2 style={{
@@ -193,6 +215,7 @@ export default function Home() {
               <section aria-label="Voice parameters">
                 <h3 className="sr-only">Adjust Voice Parameters</h3>
                 <VoiceControls
+                  key={apiModeKey}
                   params={params}
                   onParamsChange={setParams}
                   apiVoices={apiVoices}
@@ -209,20 +232,25 @@ export default function Home() {
                   onClick={handleGenerateClick}
                   disabled={!params.text.trim() || isGenerating}
                   style={{
-                    padding: `${ds.spacing.lg} ${ds.spacing['3xl']}`,
+                    padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem)',
                     background: isGenerating 
                       ? ds.colors.gray[400]
                       : 'linear-gradient(135deg, #9333ea 0%, #7c3aed 100%)',
                     color: 'white',
                     border: 'none',
                     borderRadius: ds.borderRadius.lg,
-                    fontSize: ds.typography.sizes.lg,
+                    fontSize: 'clamp(1rem, 2vw, 1.125rem)',
                     fontWeight: ds.typography.weights.bold,
                     cursor: isGenerating || !params.text.trim() ? 'not-allowed' : 'pointer',
                     transition: `all ${ds.transitions.base}`,
                     fontFamily: ds.typography.fonts.heading,
                     boxShadow: ds.shadows.lg,
-                    minWidth: '200px',
+                    minWidth: 'clamp(180px, 40vw, 220px)',
+                    minHeight: '44px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: ds.spacing.xs,
                   }}
                   onMouseEnter={(e) => {
                     if (!isGenerating && params.text.trim()) {
@@ -281,7 +309,7 @@ export default function Home() {
               <section style={{
                 background: 'white',
                 borderRadius: ds.borderRadius['2xl'],
-                padding: ds.spacing['3xl'],
+                padding: 'clamp(1.5rem, 4vw, 3rem)',
                 boxShadow: ds.shadows.md,
               }}>
                 <SavedPrompts
@@ -303,12 +331,41 @@ export default function Home() {
           fontFamily: ds.typography.fonts.body,
         }}>
           <p style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-            Made with <FaHeart style={{ color: '#ef4444' }} /> using <b>AzeemLAB API</b>
+            Made with <FaHeart style={{ color: '#ef4444' }} /> using <b>
+              <a
+                href="https://www.azeemlab.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: ds.colors.primary[600],
+                  textDecoration: 'none',
+                  fontWeight: ds.typography.weights.bold,
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as any).style.textDecoration = 'underline'; }}
+                onMouseLeave={(e) => { (e.currentTarget as any).style.textDecoration = 'none'; }}
+              >
+                AzeemLAB API
+              </a>
+            </b>
           </p>
         </footer>
       </main>
 
       <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
+        
+        html {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          scroll-behavior: smooth;
+        }
+        
+        body {
+          overflow-x: hidden;
+        }
+        
         .sr-only {
           position: absolute;
           width: 1px;
@@ -332,6 +389,12 @@ export default function Home() {
         
         .animate-spin {
           animation: spin 1s linear infinite;
+        }
+        
+        /* Ensure buttons have proper touch targets on mobile */
+        button {
+          min-height: 44px;
+          min-width: 44px;
         }
       `}</style>
     </>

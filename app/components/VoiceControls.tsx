@@ -79,7 +79,7 @@ const VoiceControls = memo(function VoiceControls({
 
   return (
     <div style={{ 
-      marginBottom: ds.spacing['2xl'],
+      marginBottom: 'clamp(1.5rem, 4vw, 3rem)',
     }}>
       <h3 style={{
         fontSize: ds.typography.sizes.lg,

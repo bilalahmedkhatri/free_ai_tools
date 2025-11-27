@@ -12,6 +12,7 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [textareaHeight, setTextareaHeight] = useState('auto');
   
   const charCount = text.length;
   const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -33,13 +34,13 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
   };
 
   return (
-    <div style={{ marginBottom: ds.spacing['2xl'], position: 'relative' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: ds.spacing.md }}>
+    <div style={{ marginBottom: 'clamp(1.5rem, 4vw, 3rem)', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: ds.spacing.md, flexWrap: 'wrap', gap: ds.spacing.sm }}>
         <label style={{ 
           display: 'flex',
           alignItems: 'center',
           gap: ds.spacing.sm,
-          fontSize: ds.typography.sizes.base,
+          fontSize: 'clamp(0.95rem, 2vw, 1rem)',
           fontWeight: ds.typography.weights.semibold,
           color: ds.colors.gray[700],
           fontFamily: ds.typography.fonts.heading,
@@ -48,7 +49,7 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
           Enter Your Text
         </label>
         <span style={{
-          fontSize: ds.typography.sizes.sm,
+          fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)',
           color: charCount > maxChars * 0.9 ? ds.colors.error : ds.colors.gray[500],
           fontWeight: ds.typography.weights.medium,
           fontFamily: ds.typography.fonts.mono,
@@ -64,21 +65,29 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
       <div style={{ position: 'relative' }}>
         <textarea
           value={text}
-          onChange={(e) => onTextChange(e.target.value)}
+          onChange={(e) => {
+            onTextChange(e.target.value);
+            // Auto-expand textarea
+            e.target.style.height = 'auto';
+            const newHeight = Math.max(120, Math.min(e.target.scrollHeight, 500));
+            e.target.style.height = newHeight + 'px';
+          }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder="Type or paste your text here... The AI will convert it into natural-sounding speech."
           maxLength={maxChars}
           style={{
             width: '100%',
-            minHeight: '180px',
+            minHeight: 'clamp(120px, 20vh, 180px)',
+            maxHeight: '500px',
             padding: ds.spacing.lg,
             border: `1px solid ${isFocused ? '#ff9b8f' : '#e5e7eb'}`,
             borderRadius: ds.borderRadius.lg,
             fontSize: ds.typography.sizes.base,
             fontFamily: ds.typography.fonts.body,
             lineHeight: ds.typography.lineHeights.relaxed,
-            resize: 'vertical',
+            resize: 'none',
+            overflow: 'auto',
             transition: `all ${ds.transitions.base}`,
             outline: 'none',
             backgroundColor: 'white',

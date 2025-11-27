@@ -150,14 +150,22 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
       ) : (
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-          gap: ds.spacing.lg,
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: 'clamp(1rem, 2vw, 1.5rem)',
         }}>
           {filteredPrompts.map((prompt, index) => {
             const originalIndex = prompts.indexOf(prompt);
             return (
               <div
                 key={index}
+                role="button"
+                tabIndex={0}
+                aria-label={`Load prompt: ${prompt.substring(0, 60)}${prompt.length > 60 ? '...' : ''}`}
+                title={prompt.substring(0, 120)}
+                onClick={() => onLoad(prompt)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLoad(prompt); } }}
+                onFocus={() => setHoveredIndex(index)}
+                onBlur={() => setHoveredIndex(null)}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 style={{
@@ -172,6 +180,7 @@ export default function SavedPrompts({ prompts, onLoad, onDelete }: SavedPrompts
                   flexDirection: 'column',
                   gap: ds.spacing.md,
                   cursor: 'pointer',
+                  outline: 'none',
                 }}
               >
                 {/* Prompt Preview */}

@@ -18,7 +18,10 @@ export async function POST(request: NextRequest) {
     validate(pitch < 0 || pitch > 2, 'Pitch must be between 0 and 2');
     validate(volume < 0 || volume > 1, 'Volume must be between 0 and 1');
 
-    const useReplicate = process.env.USE_REPLICATE === 'true';
+    // Check runtime config
+    const configResponse = await fetch(new URL('/api/voiceover/config', request.url).toString());
+    const config = await configResponse.json();
+    const useReplicate = config.useReplicate;
 
     if (useReplicate) {
       console.log('=== Using Replicate Kokoro-82M ===');
