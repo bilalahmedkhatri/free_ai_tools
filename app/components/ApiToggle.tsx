@@ -46,9 +46,15 @@ export default function ApiToggle({ onToggle }: ApiToggleProps) {
           try {
             const voicesResponse = await fetch('/api/voiceover/voiceover_samples');
             if (!voicesResponse.ok) {
-              const error = await voicesResponse.json();
+              let errorMsg = 'Please make sure your backend API is running at http://localhost:8000';
+              try {
+                const error = await voicesResponse.json();
+                errorMsg = error.error || errorMsg;
+              } catch {
+                // Response is not JSON, use default message
+              }
               setToast({
-                message: `Failed to connect to the default API server.\n\n${error.error || 'Please make sure your backend API is running at http://localhost:8000'}`,
+                message: `Failed to connect to the default API server.\n\n${errorMsg}`,
                 type: 'warning'
               });
             }

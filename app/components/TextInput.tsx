@@ -6,9 +6,10 @@ interface TextInputProps {
   text: string;
   onTextChange: (text: string) => void;
   onSave: () => boolean;
+  disabled?: boolean;
 }
 
-const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextInputProps) {
+const TextInput = memo(function TextInput({ text, onTextChange, onSave, disabled = false }: TextInputProps) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -66,6 +67,7 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
         <textarea
           value={text}
           onChange={(e) => {
+            if (disabled) return;
             onTextChange(e.target.value);
             // Auto-expand textarea
             e.target.style.height = 'auto';
@@ -74,8 +76,9 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
           }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder="Type or paste your text here... The AI will convert it into natural-sounding speech."
+          placeholder={disabled ? "Generation limit reached. Please wait for reset..." : "Type or paste your text here... The AI will convert it into natural-sounding speech."}
           maxLength={maxChars}
+          disabled={disabled}
           style={{
             width: '100%',
             minHeight: 'clamp(120px, 20vh, 180px)',
@@ -90,18 +93,20 @@ const TextInput = memo(function TextInput({ text, onTextChange, onSave }: TextIn
             overflow: 'auto',
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             outline: 'none',
-            backgroundColor: 'white',
+            backgroundColor: disabled ? ds.colors.gray[100] : 'white',
             boxShadow: isFocused ? '0 0 0 3px rgba(255, 155, 143, 0.1)' : 'none',
             boxSizing: 'border-box',
             scrollBehavior: 'smooth',
+            cursor: disabled ? 'not-allowed' : 'text',
+            opacity: disabled ? 0.6 : 1,
           }}
           onMouseEnter={(e) => {
-            if (!isFocused) {
+            if (!isFocused && !disabled) {
               e.currentTarget.style.borderColor = '#ffb4a8';
             }
           }}
           onMouseLeave={(e) => {
-            if (!isFocused) {
+            if (!isFocused && !disabled) {
               e.currentTarget.style.borderColor = '#e5e7eb';
             }
           }}

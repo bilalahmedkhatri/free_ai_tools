@@ -57,12 +57,19 @@ const AudioPlayer = memo(function AudioPlayer({
 
     setIsLoading(true);
     
-    const audio = new Audio();
-    
-    if (audioBlob) {
-      audio.src = URL.createObjectURL(audioBlob);
-    } else if (audioUrl) {
-      audio.src = audioUrl;
+    let audio: HTMLAudioElement;
+    try {
+      audio = new Audio();
+      
+      if (audioBlob) {
+        audio.src = URL.createObjectURL(audioBlob);
+      } else if (audioUrl) {
+        audio.src = audioUrl;
+      }
+    } catch (err) {
+      // console.error('Error creating audio element:', err);
+      setIsLoading(false);
+      return;
     }
 
     audio.onloadedmetadata = () => {
@@ -207,20 +214,22 @@ const AudioPlayer = memo(function AudioPlayer({
   const handleDownload = () => {
     if (!audioBlob && !audioUrl) return;
 
-    const url = audioBlob ? URL.createObjectURL(audioBlob) : audioUrl!;
+    try {
+      const url = audioBlob ? URL.createObjectURL(audioBlob) : audioUrl!;
     const a = document.createElement('a');
     a.href = url;
     a.download = fileName;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    
+
     if (audioBlob) {
       URL.revokeObjectURL(url);
     }
-  };
-
-  if (isGenerating) {
+    } catch (err) {
+      // console.error('Error downloading audio:', err);
+    }
+  };  if (isGenerating) {
     return (
       <div style={{
         background: 'linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)',

@@ -12,6 +12,25 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Validate URL to prevent SSRF attacks - only allow Replicate URLs
+    const allowedDomains = ['replicate.delivery', 'pbxt.replicate.delivery'];
+    let urlObj: URL;
+    try {
+      urlObj = new URL(audioUrl);
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid URL format' },
+        { status: 400 }
+      );
+    }
+
+    if (!allowedDomains.some(domain => urlObj.hostname.endsWith(domain))) {
+      return NextResponse.json(
+        { error: 'URL not allowed - only Replicate URLs are permitted' },
+        { status: 403 }
+      );
+    }
+
     const response = await fetch(audioUrl);
 
     if (!response.ok) {

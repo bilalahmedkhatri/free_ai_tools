@@ -68,7 +68,20 @@ export async function generateWithReplicate(params: ReplicateVoiceParams): Promi
 }
 
 export function getAvailableReplicateVoices() {
-  const kokoroVoicesData = require('../data/kokoroVoices.json');
+  let kokoroVoicesData;
+  try {
+    kokoroVoicesData = require('../data/kokoroVoices.json');
+  } catch (error) {
+    // console.error('Failed to load kokoroVoices.json:', error);
+    // Return empty arrays if file is missing or corrupted
+    kokoroVoicesData = {
+      americanEnglish: [],
+      britishEnglish: [],
+      french: [],
+      hindi: [],
+      italian: [],
+    };
+  }
   
   // Only include voices that have generated samples
   // Missing: hf_beta, all Japanese (jf_alpha, jf_gongitsune, jf_nezumi, jf_tebukuro, jm_kumo),

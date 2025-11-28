@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { VoiceParams } from '../types';
 import { promptStorage } from '../lib/promptStorage';
+import { usageLimit } from '../lib/usageLimit';
 
 export function useVoiceGenerator() {
   const [params, setParams] = useState<VoiceParams>({
@@ -17,18 +18,50 @@ export function useVoiceGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [remainingAttempts, setRemainingAttempts] = useState<number>(usageLimit.getMaxAttempts());
+  const [resetTime, setResetTime] = useState<string | null>(null);
   const generationControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const prompts = promptStorage.load();
     setSavedPrompts(prompts);
+    
+    // Initialize usage limit status
+    updateUsageStatus();
+
+    // Update countdown timer every minute
+    const intervalId = setInterval(() => {
+      updateUsageStatus();
+    }, 60000); // 60 seconds
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
+
+  const updateUsageStatus = () => {
+    const { remaining, resetAt } = usageLimit.canGenerate();
+    setRemainingAttempts(remaining);
+    if (resetAt) {
+      setResetTime(usageLimit.formatTimeUntilReset());
+    } else {
+      setResetTime(null);
+    }
+  };
 
   useEffect(() => {
     if (savedPrompts.length > 0 || promptStorage.count() > 0) {
       promptStorage.save(savedPrompts);
     }
   }, [savedPrompts]);
+
+  // Cleanup: abort pending requests on unmount
+  useEffect(() => {
+    const controller = generationControllerRef.current;
+    return () => {
+      controller?.abort();
+    };
+  }, []);
 
   const handleGenerate = async (apiVoiceId?: string) => {
     if (!params.text.trim()) {
@@ -40,6 +73,17 @@ export function useVoiceGenerator() {
     if (!apiVoiceId) {
       setErrorMessage('Please select a voice from the dropdown before generating.');
       setStatusMessage(null);
+      return;
+    }
+
+    // Check usage limit
+    const { allowed, remaining, resetAt } = usageLimit.canGenerate();
+    if (!allowed) {
+      const timeLeft = usageLimit.formatTimeUntilReset();
+      setErrorMessage(`Generation limit reached. You've used all ${usageLimit.getMaxAttempts()} attempts. Please try again in ${timeLeft}.`);
+      setStatusMessage(null);
+      setRemainingAttempts(0);
+      setResetTime(timeLeft);
       return;
     }
 
@@ -102,9 +146,16 @@ export function useVoiceGenerator() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        // console.error('API Error:', error);
-        throw new Error(error.error || 'Failed to generate voiceover');
+        let errorMessage = 'Failed to generate voiceover';
+        try {
+          const error = await response.json();
+          errorMessage = error.error || errorMessage;
+        } catch {
+          // Response is not JSON, use status text
+          errorMessage = `Server error: ${response.status} ${response.statusText}`;
+        }
+        // console.error('API Error:', errorMessage);
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -120,6 +171,10 @@ export function useVoiceGenerator() {
       const audioBlob = await audioResponse.blob();
       // console.log('Audio downloaded, blob size:', audioBlob.size);
       setAudioBlob(audioBlob);
+
+      // Increment usage counter on successful generation
+      usageLimit.incrementUsage();
+      updateUsageStatus();
 
       clearAllTimers();
       setStatusMessage(null);
@@ -187,5 +242,7 @@ export function useVoiceGenerator() {
     handleSavePrompt,
     loadPrompt,
     deletePrompt,
+    remainingAttempts,
+    resetTime,
   };
 }

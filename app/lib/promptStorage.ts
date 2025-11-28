@@ -73,12 +73,22 @@ export const promptStorage = {
   },
 
   exists: (prompt: string): boolean => {
-    const prompts = promptStorage.load();
-    return prompts.includes(prompt);
+    try {
+      const prompts = promptStorage.load();
+      return prompts.includes(prompt);
+    } catch (error) {
+      // console.error('Failed to check if prompt exists:', error);
+      return false;
+    }
   },
 
   count: (): number => {
-    const prompts = promptStorage.load();
-    return prompts.length;
+    try {
+      const prompts = promptStorage.load();
+      return prompts.length;
+    } catch (error) {
+      // console.error('Failed to count prompts:', error);
+      return 0;
+    }
   },
 };

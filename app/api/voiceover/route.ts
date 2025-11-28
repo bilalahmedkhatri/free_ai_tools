@@ -18,12 +18,20 @@ export async function POST(request: NextRequest) {
     validate(pitch < 0 || pitch > 2, 'Pitch must be between 0 and 2');
     validate(volume < 0 || volume > 1, 'Volume must be between 0 and 1');
 
-    // Check runtime config
-    const configResponse = await fetch(new URL('/api/voiceover/config', request.url).toString());
-    const config = await configResponse.json();
-    const useReplicate = config.useReplicate;
+    // Check runtime config with fallback
+    let useReplicate = false;
+    try {
+      const configResponse = await fetch(new URL('/api/voiceover/config', request.url).toString());
+      if (configResponse.ok) {
+        const config = await configResponse.json();
+        useReplicate = config.useReplicate;
+      }
+    } catch (error) {
+      // console.error('Failed to fetch config, using default API:', error);
+      // Fallback to default API (useReplicate = false)
+    }
 
-    if (config.useReplicate) {
+    if (useReplicate) {
       // console.log('=== Using Replicate Kokoro-82M ===');
       // console.log('Voice:', voice_id);
       // console.log('Text length:', text.length);

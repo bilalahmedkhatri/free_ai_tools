@@ -28,6 +28,8 @@ export default function Home() {
     statusMessage,
     errorMessage,
     dismissError,
+    remainingAttempts,
+    resetTime,
   } = useVoiceGenerator();
 
   const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError, refetch: refetchVoices } = useVoiceSamples();
@@ -212,6 +214,7 @@ export default function Home() {
                 text={params.text}
                 onTextChange={(text) => setParams({ ...params, text })}
                 onSave={handleSavePrompt}
+                disabled={remainingAttempts === 0}
               />
               
               <section aria-label="Voice parameters">
@@ -228,11 +231,36 @@ export default function Home() {
                 />
               </section>
               
+              {/* Usage Limit Display */}
+              {remainingAttempts !== null && (
+                <div style={{
+                  textAlign: 'center',
+                  padding: ds.spacing.md,
+                  background: remainingAttempts === 0 ? '#fee' : '#f0f9ff',
+                  border: `1px solid ${remainingAttempts === 0 ? '#fcc' : '#bae6fd'}`,
+                  borderRadius: ds.borderRadius.md,
+                  fontSize: 'clamp(0.875rem, 1.8vw, 1rem)',
+                  fontFamily: ds.typography.fonts.body,
+                  color: remainingAttempts === 0 ? '#dc2626' : '#0369a1',
+                }}>
+                  {remainingAttempts > 0 ? (
+                    <>
+                      <strong>{remainingAttempts}</strong> generation{remainingAttempts !== 1 ? 's' : ''} remaining
+                      {resetTime && <span style={{ marginLeft: ds.spacing.xs }}>(Resets in {resetTime})</span>}
+                    </>
+                  ) : (
+                    <>
+                      Limit reached. Try again in <strong>{resetTime || 'a moment'}</strong>
+                    </>
+                  )}
+                </div>
+              )}
+              
               {/* Generate Button */}
               <div style={{ textAlign: 'center' }}>
                 <button
                   onClick={handleGenerateClick}
-                  disabled={!params.text.trim() || isGenerating}
+                  disabled={!params.text.trim() || isGenerating || remainingAttempts === 0}
                   style={{
                     padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem)',
                     background: isGenerating 
@@ -243,7 +271,7 @@ export default function Home() {
                     borderRadius: ds.borderRadius.lg,
                     fontSize: 'clamp(1rem, 2vw, 1.125rem)',
                     fontWeight: ds.typography.weights.bold,
-                    cursor: isGenerating || !params.text.trim() ? 'not-allowed' : 'pointer',
+                    cursor: isGenerating || !params.text.trim() || remainingAttempts === 0 ? 'not-allowed' : 'pointer',
                     transition: `all ${ds.transitions.base}`,
                     fontFamily: ds.typography.fonts.heading,
                     boxShadow: ds.shadows.lg,
@@ -255,7 +283,7 @@ export default function Home() {
                     gap: ds.spacing.xs,
                   }}
                   onMouseEnter={(e) => {
-                    if (!isGenerating && params.text.trim()) {
+                    if (!isGenerating && params.text.trim() && remainingAttempts > 0) {
                       e.currentTarget.style.transform = 'translateY(-2px)';
                       e.currentTarget.style.boxShadow = ds.shadows.xl;
                     }

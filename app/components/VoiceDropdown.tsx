@@ -21,6 +21,7 @@ export default function VoiceDropdown({
 }: VoiceDropdownProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const selectedVoiceData = voices.find(v => v.voice_id === selectedVoice);
@@ -32,6 +33,8 @@ export default function VoiceDropdown({
   const handlePlaySample = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!selectedVoiceData?.sample_url) return;
+
+    setPlaybackError(null);
 
     if (audioRef.current) {
       audioRef.current.pause();
@@ -46,18 +49,19 @@ export default function VoiceDropdown({
       // console.error('Error playing audio:', err);
       // console.error('Original Sample URL:', selectedVoiceData.sample_url);
       setIsPlaying(false);
-      alert(`Failed to play audio sample. Error: ${err.message}\n\nOriginal URL: ${selectedVoiceData.sample_url}`);
+      setPlaybackError(`Failed to play audio sample: ${err.message}`);
     });
 
     audio.onended = () => {
       setIsPlaying(false);
+      setPlaybackError(null);
     };
 
-    audio.onerror = (err) => {
-      // console.error('Audio error event:', err);
+    audio.onerror = () => {
+      // console.error('Audio error event');
       // console.error('Original Sample URL:', selectedVoiceData.sample_url);
       setIsPlaying(false);
-      alert(`Failed to load audio file. Check console for details.`);
+      setPlaybackError('Failed to load audio file. Please try again.');
     };
   };
 
@@ -90,6 +94,19 @@ export default function VoiceDropdown({
       >
         <FaMicrophone /> Voice
       </label>
+
+      {playbackError && (
+        <div style={{
+          padding: ds.spacing.sm,
+          background: '#fee',
+          border: '1px solid #fcc',
+          borderRadius: ds.borderRadius.md,
+          fontSize: ds.typography.sizes.sm,
+          color: '#c33',
+        }}>
+          {playbackError}
+        </div>
+      )}
 
       {!selectedVoice || isDropdownOpen ? (
         // Dropdown mode - show when no selection or user wants to change
