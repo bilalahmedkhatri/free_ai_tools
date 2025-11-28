@@ -9,7 +9,7 @@ import AudioPlayer from './components/AudioPlayer';
 import GenerationStatus from './components/GenerationStatus';
 import ApiToggle from './components/ApiToggle';
 import { designSystem as ds } from './lib/designSystem';
-import { useState, useMemo, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
 
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
@@ -35,6 +35,12 @@ export default function Home() {
   const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError, refetch: refetchVoices } = useVoiceSamples();
   const [selectedApiVoice, setSelectedApiVoice] = useState('');
   const [apiModeKey, setApiModeKey] = useState(0);
+  const [isClient, setIsClient] = useState(false);
+
+  // Fix hydration error - only show usage limit on client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleApiToggle = (useReplicate: boolean) => {
     // Force re-render of VoiceControls and refetch voices
@@ -232,7 +238,7 @@ export default function Home() {
               </section>
               
               {/* Usage Limit Display */}
-              {remainingAttempts !== null && (
+              {isClient && remainingAttempts !== null && (
                 <div style={{
                   textAlign: 'center',
                   padding: ds.spacing.md,

@@ -6,6 +6,10 @@ import { promptStorage } from '../lib/promptStorage';
 import { usageLimit } from '../lib/usageLimit';
 
 export function useVoiceGenerator() {
+  // Initialize usage limit status immediately before any state
+  const initialUsageStatus = typeof window !== 'undefined' ? usageLimit.canGenerate() : { remaining: 3, resetAt: null };
+  const initialResetTime = typeof window !== 'undefined' && initialUsageStatus.resetAt ? usageLimit.formatTimeUntilReset() : null;
+
   const [params, setParams] = useState<VoiceParams>({
     text: '',
     voice: '',
@@ -18,8 +22,8 @@ export function useVoiceGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [remainingAttempts, setRemainingAttempts] = useState<number>(usageLimit.getMaxAttempts());
-  const [resetTime, setResetTime] = useState<string | null>(null);
+  const [remainingAttempts, setRemainingAttempts] = useState<number>(initialUsageStatus.remaining);
+  const [resetTime, setResetTime] = useState<string | null>(initialResetTime);
   const generationControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -29,10 +33,10 @@ export function useVoiceGenerator() {
     // Initialize usage limit status
     updateUsageStatus();
 
-    // Update countdown timer every minute
+    // Update countdown timer every second
     const intervalId = setInterval(() => {
       updateUsageStatus();
-    }, 60000); // 60 seconds
+    }, 1000); // 1 second
 
     return () => {
       clearInterval(intervalId);
