@@ -3,6 +3,7 @@
 import { FaMicrophone, FaSync, FaHeart } from 'react-icons/fa';
 import { useVoiceGenerator } from './hooks/useVoiceGenerator';
 import { useVoiceSamples } from './hooks/useVoiceSamples';
+import { useVisitorCount } from './hooks/useVisitorCount';
 import TextInput from './components/TextInput';
 import VoiceControls from './components/VoiceControls';
 import AudioPlayer from './components/AudioPlayer';
@@ -32,6 +33,8 @@ export default function Home() {
     resetTime,
   } = useVoiceGenerator();
 
+  const { count: visitorCount, isLoading: isCountLoading } = useVisitorCount();
+
   const { voices: apiVoices, loading: apiVoicesLoading, error: apiVoicesError, refetch: refetchVoices } = useVoiceSamples();
   const [selectedApiVoice, setSelectedApiVoice] = useState('');
   const [apiModeKey, setApiModeKey] = useState(0);
@@ -40,6 +43,12 @@ export default function Home() {
   // Fix hydration error - only show usage limit on client
   useEffect(() => {
     setIsClient(true);
+    
+    // Visitor counter: call API route on mount
+    fetch('/api/visit')
+      // .then(res => res.json())
+      // .then(data => console.log('Visitor count updated:', data))
+      // .catch(error => console.error('Error updating visitor count:', error));
   }, []);
 
   const handleApiToggle = (useReplicate: boolean) => {
@@ -364,6 +373,13 @@ export default function Home() {
           fontSize: ds.typography.sizes.sm,
           fontFamily: ds.typography.fonts.body,
         }}>
+          {isCountLoading ? (
+            <p>Loading visitor count...</p>
+          ) : visitorCount !== null ? (
+            <p style={{ marginBottom: ds.spacing.md }}>
+              Total Visitors: <strong>{visitorCount.toLocaleString()}</strong>
+            </p>
+          ) : null}
           <p style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
             Made with <FaHeart style={{ color: '#ef4444' }} /> using <b>
               <a
