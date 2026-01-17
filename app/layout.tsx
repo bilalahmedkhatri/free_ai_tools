@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://voicegenerator.app'),
+  metadataBase: new URL('https://freevoiceover.vercel.app'),
   title: 'AI Voiceover Generator - Free Text to Speech Tool | Create Professional Voiceovers',
   description: 'Generate professional voiceovers online for free. Convert text to speech with customizable voice, speed, pitch, and volume. Perfect for content creators, educators, and professionals.',
   keywords: ['voiceover generator', 'text to speech', 'TTS', 'AI voice', 'speech synthesis', 'voice generator', 'audio generator', 'free voiceover tool'],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://voicegenerator.app',
+    url: 'https://freevoiceover.vercel.app',
     title: 'AI Voiceover Generator - Free Text to Speech Tool',
     description: 'Create professional voiceovers with customizable parameters. Free, fast, and easy to use text-to-speech generator.',
     siteName: 'AI Voiceover Generator',
@@ -43,7 +43,10 @@ export const metadata: Metadata = {
     creator: '@voicegenerator',
   },
   alternates: {
-    canonical: 'https://voicegenerator.app',
+    canonical: 'https://freevoiceover.vercel.app',
+    languages: {
+      'en-US': 'https://freevoiceover.vercel.app/en-US',
+    }
   },
 };
 
@@ -67,7 +70,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="http://localhost:8000" />
         <link rel="dns-prefetch" href="http://localhost:8000" />
-        <style dangerouslySetInnerHTML={{__html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           * {
             scrollbar-width: thin;
             scrollbar-color: #ff9b8f #f3f4f6;
@@ -104,8 +108,8 @@ export default function RootLayout({
           }
         `}} />
       </head>
-      <body style={{ 
-        margin: 0, 
+      <body style={{
+        margin: 0,
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       }}>
         {children}
