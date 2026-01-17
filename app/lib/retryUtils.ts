@@ -20,7 +20,11 @@ export async function retryWithBackoff<T>(
       
       // Don't log on the final attempt
       if (i < maxRetries) {
-        console.warn(`Retry attempt ${i + 1} failed:`, error.message);
+        if (error instanceof Error) {
+          console.warn(`Retry attempt ${i + 1} failed:`, error.message);
+        } else {
+          console.warn(`Retry attempt ${i + 1} failed:`, error);
+        }
       }
       
       // If this is the last attempt, throw the error
