@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://freevoiceover.vercel.app'),
-  title: 'AI Voiceover Generator - Free Text to Speech Tool | Create Professional Voiceovers',
-  description: 'Generate professional voiceovers online for free. Convert text to speech with customizable voice, speed, pitch, and volume. Perfect for content creators, educators, and professionals.',
+  title: 'AI Voiceover Generator - Free Text to Speech Tool',
+  description: 'Create professional voiceovers with customizable voice, speed, pitch, and volume. Free online text-to-speech generator.',
   keywords: ['voiceover generator', 'text to speech', 'TTS', 'AI voice', 'speech synthesis', 'voice generator', 'audio generator', 'free voiceover tool'],
   authors: [{ name: 'Voice Generator Free' }],
   creator: 'Voice Generator Free',

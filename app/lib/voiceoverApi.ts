@@ -1,3 +1,5 @@
+import { retryWithBackoff } from './retryUtils';
+
 const API_BASE_URL = process.env.VOICEOVER_API_URL;
 
 export interface VoiceoverRequest {
@@ -54,50 +56,54 @@ export interface VoiceoverMetadata {
 export async function generateVoiceover(
   request: VoiceoverRequest
 ): Promise<VoiceoverResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/voiceover`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      text: request.text,
-      voice_id: request.voice_id,
-      speed: request.speed ?? 1,
-      pitch: request.pitch ?? 1,
-      volume: request.volume ?? 0.8,
-      tone: request.tone ?? 'neutral',
-    }),
+  return retryWithBackoff(async () => {
+    const response = await fetch(`${API_BASE_URL}/api/voiceover`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: request.text,
+        voice_id: request.voice_id,
+        speed: request.speed ?? 1,
+        pitch: request.pitch ?? 1,
+        volume: request.volume ?? 0.8,
+        tone: request.tone ?? 'neutral',
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to generate voiceover');
+    }
+
+    return response.json();
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to generate voiceover');
-  }
-
-  return response.json();
 }
 
 /**
  * Get available voice samples/tones
  */
 export async function getVoiceSamples(): Promise<VoiceSample[]> {
-  // Call Next.js API route instead of backend directly
-  const response = await fetch('/api/voiceover/voiceover_samples');
+  return retryWithBackoff(async () => {
+    // Call Next.js API route instead of backend directly
+    const response = await fetch('/api/voiceover/voiceover_samples');
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to fetch voice samples');
-  }
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to fetch voice samples');
+    }
 
-  const data = await response.json();
-  
-  // API returns array directly, not wrapped in { voices: [] }
-  if (Array.isArray(data)) {
-    return data;
-  }
-  
-  // Fallback for old API format
-  return data.voices || [];
+    const data = await response.json();
+    
+    // API returns array directly, not wrapped in { voices: [] }
+    if (Array.isArray(data)) {
+      return data;
+    }
+    
+    // Fallback for old API format
+    return data.voices || [];
+  });
 }
 
 /**
@@ -106,30 +112,34 @@ export async function getVoiceSamples(): Promise<VoiceSample[]> {
 export async function getVoiceover(
   voiceoverId: string
 ): Promise<VoiceoverMetadata> {
-  const response = await fetch(`${API_BASE_URL}/api/voiceover/${voiceoverId}`);
+  return retryWithBackoff(async () => {
+    const response = await fetch(`${API_BASE_URL}/api/voiceover/${voiceoverId}`);
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to fetch voiceover');
-  }
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to fetch voiceover');
+    }
 
-  return response.json();
+    return response.json();
+  });
 }
 
 /**
  * Download voiceover audio file
  */
 export async function downloadVoiceover(voiceoverId: string): Promise<Blob> {
-  const response = await fetch(
-    `${API_BASE_URL}/api/voiceover/${voiceoverId}/download`
-  );
+  return retryWithBackoff(async () => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/voiceover/${voiceoverId}/download`
+    );
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to download voiceover');
-  }
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to download voiceover');
+    }
 
-  return response.blob();
+    return response.blob();
+  });
 }
 
 /**
@@ -138,16 +148,18 @@ export async function downloadVoiceover(voiceoverId: string): Promise<Blob> {
 export async function deleteVoiceover(
   voiceoverId: string
 ): Promise<{ success: boolean; message: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/voiceover/${voiceoverId}`, {
-    method: 'DELETE',
+  return retryWithBackoff(async () => {
+    const response = await fetch(`${API_BASE_URL}/api/voiceover/${voiceoverId}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to delete voiceover');
+    }
+
+    return response.json();
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Failed to delete voiceover');
-  }
-
-  return response.json();
 }
 
 /**
