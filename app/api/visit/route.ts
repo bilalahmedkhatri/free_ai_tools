@@ -31,10 +31,12 @@ const writeCount = (newCount: number): void => {
 export async function GET() {
   // In a real production environment, you might want to remove this check
   // or implement a more robust solution for concurrent writes.
+  /*
   if (process.env.NODE_ENV === 'development') {
     // console.log('Visitor count API called in development mode. Skipping file write.');
     return NextResponse.json({ message: 'Visitor count incremented (dev mode skip)' }, { status: 200 });
   }
+  */
 
   try {
     const currentCount = readCount();
