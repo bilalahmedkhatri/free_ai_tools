@@ -19,7 +19,7 @@ async function readJsonFile<T>(filePath: string, defaultValue: T): Promise<T> {
  * It increments the total visitor count and logs the visitor's location.
  */
 // export async function POST(request: NextRequest) {
-export default async function POSTIP(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
 
     console.log("Received visitor log request.");
