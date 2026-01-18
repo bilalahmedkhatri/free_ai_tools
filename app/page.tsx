@@ -12,7 +12,9 @@ import ApiToggle from './components/ApiToggle';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
+// import POSTIP from './api/visit_copy/c_cities';
 
+const VisitorStats = lazy(() => import('./components/VisitorStats'));
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
 
 export default function Home() {
@@ -43,12 +45,15 @@ export default function Home() {
   // Fix hydration error - only show usage limit on client
   useEffect(() => {
     setIsClient(true);
+
+    // const ip = POSTIP();
+    // console.log("Logging visitor IP:", ip);
     
-    // Visitor counter: call API route on mount
-    fetch('/api/visit')
-      // .then(res => res.json())
-      // .then(data => console.log('Visitor count updated:', data))
-      // .catch(error => console.error('Error updating visitor count:', error));
+    // Log visitor on component mount
+    fetch('/api/visit', { method: 'POST' })
+      .then(res => res.json())
+      .then(data => { if (!data.success) console.error('Failed to log visit.'); })
+      .catch(error => console.error('Error logging visit:', error));
   }, []);
 
   const handleApiToggle = (useReplicate: boolean) => {
@@ -338,7 +343,7 @@ export default function Home() {
           </section>
 
           {/* Saved Prompts Section */}
-          {savedPrompts.length > 0 && (
+          {isClient && savedPrompts.length > 0 && (
             <Suspense fallback={
               <section style={{
                 background: 'white',
@@ -363,6 +368,27 @@ export default function Home() {
               </section>
             </Suspense>
           )}
+        </div>
+
+        {/* Visitor Stats Section */}
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: '0 clamp(1rem, 4vw, 4rem) clamp(1rem, 4vw, 4rem)',
+        }}>
+          <section style={{
+            background: 'white',
+            borderRadius: ds.borderRadius['2xl'],
+            padding: 'clamp(1.5rem, 4vw, 3rem)',
+            boxShadow: ds.shadows.md,
+          }}>
+            <h2 style={{ fontSize: ds.typography.sizes['2xl'], fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.xl, textAlign: 'center' }}>
+              Visitor Statistics
+            </h2>
+            <Suspense fallback={<LoadingSkeleton variant="table" />}>
+              <VisitorStats />
+            </Suspense>
+          </section>
         </div>
 
         {/* Footer */}
