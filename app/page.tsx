@@ -8,6 +8,7 @@ import VoiceControls from './components/VoiceControls';
 import AudioPlayer from './components/AudioPlayer';
 import GenerationStatus from './components/GenerationStatus';
 import ApiToggle from './components/ApiToggle';
+import Footer from './Footer';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
@@ -38,6 +39,10 @@ export default function Home() {
   const [selectedApiVoice, setSelectedApiVoice] = useState('');
   const [apiModeKey, setApiModeKey] = useState(0);
   const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleApiToggle = (useReplicate: boolean) => {
     // Force re-render of VoiceControls and refetch voices
@@ -455,53 +460,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer style={{
-          textAlign: 'center',
-          padding: `${ds.spacing['2xl']} ${ds.spacing.xl}`,
-          color: ds.colors.gray[600],
-          fontSize: ds.typography.sizes.sm,
-          fontFamily: ds.typography.fonts.body,
-        }}>
-          <p style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-            Made with <FaHeart style={{ color: '#ef4444' }} /> using <b>
-              <a
-                href="https://www.azeemlab.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: ds.colors.primary[600],
-                  textDecoration: 'none',
-                  fontWeight: ds.typography.weights.bold,
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as any).style.textDecoration = 'underline'; }}
-                onMouseLeave={(e) => { (e.currentTarget as any).style.textDecoration = 'none'; }}
-              >
-                AzeemLAB API
-              </a>
-            </b>
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: ds.spacing.md }}>
-            <p style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-              Made with <FaHeart style={{ color: '#ef4444' }} /> using <b>
-                <a
-                  href="https://www.azeemlab.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: ds.colors.primary[600],
-                    textDecoration: 'none',
-                    fontWeight: ds.typography.weights.bold,
-                  }}
-                  onMouseEnter={(e) => { (e.currentTarget as any).style.textDecoration = 'underline'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as any).style.textDecoration = 'none'; }}
-                >
-                  AzeemLAB API
-                </a>
-              </b>
-            </p>
-            <p>&copy; {new Date().getFullYear()} AI Voiceover Generator. All rights reserved.</p>
-          </div>
-        </footer>
+        <Footer />
       </main>
 
       <style jsx global>{`
