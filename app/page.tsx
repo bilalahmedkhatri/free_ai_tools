@@ -1,5 +1,6 @@
 'use client';
 
+import type { Metadata } from 'next';
 import { FaMicrophone, FaSync, FaHeart } from 'react-icons/fa';
 import { useVoiceGenerator } from './hooks/useVoiceGenerator';
 import { useVoiceSamples } from './hooks/useVoiceSamples';
@@ -12,6 +13,13 @@ import Footer from './Footer';
 import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
+
+// export const metadata: Metadata = {
+//   title: 'Free AI Voice Generator | Natural Text-to-Speech',
+//   description: 'Instantly transform text into natural-sounding speech with our free AI voice generator. Perfect for content creators, educators, and accessibility needs. No sign-up required.',
+//   keywords: ['ai voice generator', 'text to speech', 'free tts', 'voiceover generator', 'natural sounding voices'],
+//   applicationName: 'AI Voiceover Generator',
+// };
 
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
 
@@ -157,12 +165,9 @@ export default function Home() {
               fontWeight: ds.typography.weights.normal,
               padding: '0 1rem',
             }}>
-              Transform your text into natural-sounding speech with advanced voice controls. 
-              Perfect for content creators, educators, and accessibility.
-              Welcome to the free AI Voiceover Generator, your go-to tool for creating high-quality, natural-sounding speech from any text. 
-              Our advanced text-to-speech (TTS) technology offers a seamless experience, perfect for content creators, educators, developers, and anyone needing a professional voiceover. 
-              With customizable voice parameters like pitch, speed, and volume, you have complete control over the final audio output. 
-              Start creating your perfect voiceover in seconds—no sign-up required.
+              Instantly transform text into high-quality, natural-sounding speech with our free AI Voice Generator. 
+              Perfect for content creators, educators, and developers, our advanced text-to-speech (TTS) tool offers a seamless experience with customizable voice parameters. 
+              Start creating professional voiceovers in seconds—no sign-up required.
             </p>
 
             {/* Feature Pills */}
@@ -366,98 +371,6 @@ export default function Home() {
             </Suspense>
           )}
         </div>
-
-        {/* How It Works Section */}
-        <section id="how-it-works" style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: 'clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem)',
-          textAlign: 'center',
-        }}>
-          <h2 style={{ fontSize: ds.typography.sizes['2xl'], fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.xl }}>
-            How Our AI Voiceover Generator Works
-          </h2>
-          <p style={{ fontSize: ds.typography.sizes.lg, fontFamily: ds.typography.fonts.body, maxWidth: '800px', margin: `0 auto ${ds.spacing.xl}`, color: '#2d2d2d', lineHeight: '1.7' }}>
-            Our AI voice generator simplifies the process of converting text to speech into three easy steps. We handle the complex processing on our powerful servers, delivering a high-quality audio file directly to you. This ensures a fast and reliable voice generation experience every time.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: ds.spacing.xl, marginTop: ds.spacing.lg }}>
-            <div style={{ background: 'white', padding: ds.spacing.xl, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.md }}>
-              <h3 style={{ fontSize: ds.typography.sizes.xl, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.md }}>1. Enter Your Text</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600] }}>Type or paste the text you want to convert into the text box. You can also save your frequently used text as prompts for quick access later.</p>
-            </div>
-            <div style={{ background: 'white', padding: ds.spacing.xl, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.md }}>
-              <h3 style={{ fontSize: ds.typography.sizes.xl, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.md }}>2. Customize the Voice</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600] }}>Choose from a variety of voices and adjust the parameters. Fine-tune the speed, pitch, and volume to match your desired tone and style perfectly.</p>
-            </div>
-            <div style={{ background: 'white', padding: ds.spacing.xl, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.md }}>
-              <h3 style={{ fontSize: ds.typography.sizes.xl, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.md }}>3. Generate & Download</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600] }}>Click the "Generate Voiceover" button. Our AI will process your text and you can listen to the result instantly and download it as an audio file.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases Section */}
-        <section id="use-cases" style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: 'clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem)',
-          textAlign: 'center',
-        }}>
-          <h2 style={{ fontSize: ds.typography.sizes['2xl'], fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.xl }}>
-            Perfect for a Variety of Applications
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: ds.spacing.lg, textAlign: 'left' }}>
-            <div style={{ background: 'rgba(255,255,255,0.7)', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, border: '1px solid rgba(0,0,0,0.05)' }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[700], marginBottom: ds.spacing.sm }}>Content Creators</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], lineHeight: '1.6' }}>Create engaging voiceovers for your YouTube videos, podcasts, and social media content without needing expensive recording equipment.</p>
-            </div>
-            <div style={{ background: 'rgba(255,255,255,0.7)', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, border: '1px solid rgba(0,0,0,0.05)' }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[700], marginBottom: ds.spacing.sm }}>Educators & Students</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], lineHeight: '1.6' }}>Develop e-learning materials, presentations, and study aids with clear and consistent narration.</p>
-            </div>
-            <div style={{ background: 'rgba(255,255,255,0.7)', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, border: '1px solid rgba(0,0,0,0.05)' }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[700], marginBottom: ds.spacing.sm }}>Accessibility</h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], lineHeight: '1.6' }}>Make your digital content more accessible by providing audio versions for users with visual impairments or reading difficulties.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section id="faq" style={{
-          maxWidth: '900px',
-          margin: '0 auto',
-          padding: 'clamp(1.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem)',
-        }}>
-          <h2 style={{ fontSize: ds.typography.sizes['2xl'], fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.heading, color: ds.colors.gray[800], marginBottom: ds.spacing.xl, textAlign: 'center' }}>
-            Frequently Asked Questions
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: ds.spacing.lg }}>
-            <div style={{ background: 'white', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.sm }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.body, color: ds.colors.gray[700] }}>
-                Is this AI voice generator completely free to use?
-              </h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], marginTop: ds.spacing.xs, lineHeight: '1.6' }}>
-                Yes, our tool is free for generating voiceovers. We provide a generous number of daily attempts to ensure everyone can use our service. If you require higher limits or additional features, please check out our parent company, AzeemLAB, for professional API solutions.
-              </p>
-            </div>
-            <div style={{ background: 'white', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.sm }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.body, color: ds.colors.gray[700] }}>
-                What languages and voices are supported?
-              </h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], marginTop: ds.spacing.xs, lineHeight: '1.6' }}>
-                Currently, our free AI voiceover generator primarily supports English with a selection of male and female voices. Our underlying API provides access to a wider range of languages and accents for more advanced use cases.
-              </p>
-            </div>
-            <div style={{ background: 'white', padding: ds.spacing.lg, borderRadius: ds.borderRadius.lg, boxShadow: ds.shadows.sm }}>
-              <h3 style={{ fontSize: ds.typography.sizes.lg, fontWeight: ds.typography.weights.bold, fontFamily: ds.typography.fonts.body, color: ds.colors.gray[700] }}>
-                Can I use the generated audio for commercial purposes?
-              </h3>
-              <p style={{ fontFamily: ds.typography.fonts.body, color: ds.colors.gray[600], marginTop: ds.spacing.xs, lineHeight: '1.6' }}>
-                Yes, the audio you generate with our tool can be used for both personal and commercial projects. Whether it's for a marketing video, an online course, or a podcast, you are free to use the output.
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Footer */}
         <Footer />
