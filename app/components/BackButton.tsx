@@ -21,8 +21,6 @@ const BackButton = () => {
     textDecoration: 'none',
     cursor: 'pointer',
     width: 'fit-content',
-    position: 'relative',
-    zIndex: 1,
   };
 
   // Styles for the icon's circular background
