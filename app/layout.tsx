@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from "@vercel/analytics/next";
 
-Analytics.load();
-
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://freevoiceover.vercel.app'),
   title: 'AI Voiceover Generator - Free Text to Speech Tool',
@@ -74,6 +71,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="http://localhost:8000" />
         <link rel="dns-prefetch" href="http://localhost:8000" />
+        <Analytics />
         <style dangerouslySetInnerHTML={{
           __html: `
           * {

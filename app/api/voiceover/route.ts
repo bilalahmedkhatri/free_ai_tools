@@ -4,6 +4,7 @@ import { generateWithReplicate } from '@/app/lib/replicateService';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log('=== POST /api/voiceover ===')
     const { text, voice_id, speed = 1, pitch = 1, volume = 0.8, tone = 'neutral' } = body;
     
     const validate = (condition: boolean, message: string, status = 400) => {
