@@ -1,0 +1,42 @@
+.header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(255, 228, 225, 0.9);
+  color: #d9534f;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.date {
+  color: #555;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.paragraph {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: #2d2d2d;
+}
+

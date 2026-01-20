@@ -421,7 +421,8 @@ export default function Home() {
           min-height: 44px;
           min-width: 44px;
         }
-      `}</style>
+      `}
+      </style>
     </>
   );
 }

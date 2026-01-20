@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 export default function layout({ children }: { children: React.ReactNode }) {
     return (
-        <div style={{ background: 'linear-gradient(135deg, #fef3f2 0%, #ffe4e1 100%)', minHeight: '100vh', color: '#1a1a1a' }}>
-            <main style={{ height: '100vh', maxWidth: '900px', margin: '0 auto', padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem)' }}>
+        <div className="bg-gradient-to-br from-red-50 to-red-100 min-h-screen text-gray-900">
+            <main className="h-screen max-w-4xl mx-auto p-8 sm:p-12 md:p-16">
                 <BackButton />
-                <div style={{ background: 'white', padding: 'clamp(1.5rem, 4vw, 3rem)', borderRadius: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+                <div className="bg-white p-6 sm:p-8 md:p-12 rounded-2xl shadow-lg">
                     {children}
                 </div>
             </main>
