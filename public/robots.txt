@@ -1,9 +1,12 @@
+# Allow all crawlers
 User-agent: *
+Allow: /
+
+# Disallow crawling of specific directories
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
+Disallow: /components/
 
+# Sitemap location
 Sitemap: https://voicegenerator.app/sitemap.xml
-
-# Allow all other pages
-Allow: /
