@@ -25,14 +25,10 @@ const Blogs = () => (
       <p style={{ marginBottom: '2rem' }}>
         Welcome to our blog! Here you'll find the latest news, tutorials, and insights into the world of AI voice generation and text-to-speech technology.
       </p>
-      
-      {/* Placeholder for blog posts list */}
-      <div style={{ marginTop: '3rem', borderTop: '1px solid #ffe4e1', paddingTop: '2rem', color: '#555' }}>
-        <p>Our latest articles will appear here soon. Stay tuned!</p>
-      </div>
+
+      <PostList posts={mockPosts} />
     </div>
 
-    <PostList posts={mockPosts} />
   </>
 );
 

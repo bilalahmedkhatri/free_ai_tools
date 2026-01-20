@@ -21,7 +21,7 @@ const truncateText = (text: string, maxLength: number) => {
 
 const PostCard: React.FC<PostCardProps> = ({ slug, title, description, imageUrl, tag }) => {
   return (
-    <Link href={`/blog/${slug}`} passHref>
+    <Link href={`/blog/${slug}`} passHref className='text' style={{ textDecoration: "none" }} >
       <div style={{
         background: 'white',
         borderRadius: '12px',
@@ -49,23 +49,24 @@ const PostCard: React.FC<PostCardProps> = ({ slug, title, description, imageUrl,
             layout="fill"
             objectFit="cover"
           />
-        </div>
-        <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <span style={{
-            display: 'inline-block',
-            background: '#ffe4e1',
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            zIndex: 1,
+            background: 'rgba(255, 228, 225, 0.9)',
             color: '#d9534f',
             padding: '0.25rem 0.75rem',
             borderRadius: '9999px',
             fontSize: '0.8rem',
             fontWeight: '500',
-            marginBottom: '0.75rem',
-            alignSelf: 'flex-start',
+            backdropFilter: 'blur(4px)',
           }}>
             {tag}
           </span>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#1a1a1a' }}>{title}</h3>
-          <p style={{ fontSize: '1rem', color: '#555', lineHeight: '1.6', margin: 0, flexGrow: 1 }}>{truncateText(description, 100)}</p>
+        </div>
+        <div style={{ padding: '1rem' }}>
+          <h3 style={{ fontSize: '1.25rem', textAlign: 'left', fontWeight: 'bold', margin: '0 0 0.5rem 0', color: '#1a1a1a' }}>{truncateText(title, 100)}</h3>
         </div>
       </div>
     </Link>
