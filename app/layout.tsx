@@ -66,6 +66,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="http://localhost:8000" />
         <link rel="dns-prefetch" href="http://localhost:8000" />
+        <script src="https://quge5.com/88/tag.min.js" data-zone="203992" async data-cfasync="false"></script>
         <Analytics />
       </head>
       <body>{children}</body>
