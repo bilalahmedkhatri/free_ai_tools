@@ -9,6 +9,14 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- Blog Page -->
+  <url>
+    <loc>https://voicegenerator.app/blog</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Static Pages -->
   <url>
     <loc>https://voicegenerator.app/about-us</loc>
