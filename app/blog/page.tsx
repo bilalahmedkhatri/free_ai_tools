@@ -1,10 +1,20 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import PostList from '../components/PostList';
 
 export const metadata: Metadata = {
   title: 'Blog | Free AI Voice Generator',
   description: 'Explore articles, tutorials, and updates on text-to-speech technology, AI voice generation, and content creation best practices from our expert team.',
 };
+
+// Mock data for blog posts
+const mockPosts = Array.from({ length: 12 }, (_, i) => ({
+  slug: `post-${i + 1}`,
+  title: `The Future of AI Voice: Trends for 202${7 + (i % 3)}`,
+  description: 'Discover the latest advancements in text-to-speech technology and how they are shaping the future of content creation, accessibility, and user interaction. This is a longer sentence to test truncation.',
+  imageUrl: `https://picsum.photos/seed/${i + 1}/800/450`,
+  tag: ['Technology', 'AI', 'Tutorials'][i % 3],
+}));
 
 const Blogs = () => (
   <>
@@ -21,6 +31,8 @@ const Blogs = () => (
         <p>Our latest articles will appear here soon. Stay tuned!</p>
       </div>
     </div>
+
+    <PostList posts={mockPosts} />
   </>
 );
 
