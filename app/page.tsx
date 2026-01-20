@@ -14,12 +14,6 @@ import { designSystem as ds } from './lib/designSystem';
 import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
 
-// export const metadata: Metadata = {
-//   title: 'Free AI Voice Generator | Natural Text-to-Speech',
-//   description: 'Instantly transform text into natural-sounding speech with our free AI voice generator. Perfect for content creators, educators, and accessibility needs. No sign-up required.',
-//   keywords: ['ai voice generator', 'text to speech', 'free tts', 'voiceover generator', 'natural sounding voices'],
-//   applicationName: 'AI Voiceover Generator',
-// };
 
 const SavedPrompts = lazy(() => import('./components/SavedPrompts'));
 

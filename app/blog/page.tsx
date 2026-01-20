@@ -8,14 +8,9 @@ export const metadata: Metadata = {
   description: 'Explore articles, tutorials, and updates on text-to-speech technology, AI voice generation, and content creation best practices from our expert team.',
 };
 
-async function fetchPosts(h: Headers) {
-  // Server-side fetch to our internal API route.
-  // const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'localhost:3000';
-  // const proto = h.get('x-forwarded-proto') ?? 'http';
-  // const baseUrl = `${proto}://${host}`;
+async function fetchPosts() {
 
   const res = await fetch(`http://localhost:3000/api/blog?limit=12`, {
-  // const res = await fetch(`${baseUrl}/api/blog?limit=12`, {
     cache: 'no-store',
   });
 
@@ -27,7 +22,7 @@ async function fetchPosts(h: Headers) {
 }
 
 const Blogs = async () => {
-  const data = await fetchPosts(headers());
+  const data = await fetchPosts();
 
   return (
     <>
